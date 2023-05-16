@@ -7,6 +7,7 @@
         "github.vscode-pull-request-github",
         "humao.rest-client",
         "spmeesseman.vscode-taskexplorer",
-        "shardulm94.trailing-spaces"
+        "shardulm94.trailing-spaces",
+        "yzhang.markdown-all-in-one"
     ]
 }
