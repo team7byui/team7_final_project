@@ -1,8 +1,10 @@
 {
     "env": {
-        "browser": true,
         "commonjs": true,
-        "es2021": true
+        "es2021": true,
+        "jest": true,
+        "mongo": true,
+        "node": true
     },
     "extends": "standard",
     "overrides": [
@@ -11,5 +13,7 @@
         "ecmaVersion": "latest"
     },
     "rules": {
+        "semi": ["warn", "always"],
+        "no-trailing-spaces": "error"
     }
 }

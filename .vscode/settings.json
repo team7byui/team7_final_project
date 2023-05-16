@@ -6,5 +6,8 @@
         "Shauntal",
         "Sudds",
         "Tianna"
-    ]
+    ],
+    "editor.formatOnSaveMode": "file",
+    "editor.formatOnSave": true,
+    "eslint.format.enable": true
 }
