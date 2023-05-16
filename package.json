@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "commonjs",
+  "engines": {
+    "node": "^16.0.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
@@ -12,6 +16,12 @@
     "swagger": "node ./swagger.js"
   },
   "author": "",
+  "contributors": [
+    "Kelsey Berta <kelseyberta@github.com>",
+    "Tianna Despain <tiannadespain@github.com>",
+    "Shauntal Byrne <shauniebyrne@github.com>",
+    "John Sudds <jsuddsjr@github.com>"
+  ],
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
@@ -23,7 +33,11 @@
   "devDependencies": {
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
     "nodemon": "^2.0.22",
     "prettier": "^2.8.8",
     "swagger-autogen": "^2.23.1"
