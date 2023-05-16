@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "streetsidesoftware.code-spell-checker",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "mongodb.mongodb-vscode",
+        "github.vscode-pull-request-github",
+        "humao.rest-client",
+        "spmeesseman.vscode-taskexplorer",
+        "shardulm94.trailing-spaces"
+    ]
+}
