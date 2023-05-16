@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "type": "commonjs",
   "engines": {
     "node": "^16.0.0"
   },
@@ -14,7 +15,13 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "swagger": "node ./swagger.js"
   },
-  "author": "Kelsey Berta, Tianna Despain, Shauntal Byrne, John Sudds",
+  "author": "",
+  "contributors": [
+    "Kelsey Berta <kelseyberta@github.com>",
+    "Tianna Despain <tiannadespain@github.com>",
+    "Shauntal Byrne <shauniebyrne@github.com>",
+    "John Sudds <jsuddsjr@github.com>"
+  ],
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
