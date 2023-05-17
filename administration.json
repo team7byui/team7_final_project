@@ -1,0 +1,34 @@
+[
+    {
+        "firstName": "Sarah",
+        "lastName": "Grey",
+        "address": "1525 E Van Burren Street, Tempe, Arizona, 85282",
+        "phoneNumber": "4802756809",
+        "email": "sarah.grey@gmail.com",
+        "position": "President"
+    },
+    {
+        "firstName": "Mark",
+        "lastName": "Quincy",
+        "address": "1325 E Groggy Avenue, Tempe, Arizona, 85282",
+        "phoneNumber": "6028941325",
+        "email": "mark.quincy@gmail.com",
+        "position": "Vice-President"
+    },
+    {
+        "firstName": "Roberta",
+        "lastName": "Rogers",
+        "address": "1381 S Rural Road, Tempe, Arizona, 85282",
+        "phoneNumber": "6024587625",
+        "email": "roberta.rogers@gmail.com",
+        "position": "Treasurer"
+    },
+    {
+        "firstName": "Carlton",
+        "lastName": "Tabers",
+        "address": "2615 W Brooklyn Circle, Tempe, Arizona, 85282",
+        "phoneNumber": "4802358945",
+        "email": "carlton.tabers@gmail.com",
+        "position": "Secretary"
+    }
+]

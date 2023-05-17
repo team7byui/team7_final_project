@@ -93,6 +93,8 @@ Plan out what tasks will get completed with each lesson remaining in the semeste
 ### Lesson 10 Tasks - Friday
 
 * [x] Create Git Repo
+* [x] Set up MongoDB
+* [x] Set up Nodejs project code
 * [ ] API DOCUMENTATION is complete and available at route ‘/api-docs’
 * [ ] GET, POST Requests
 * [ ] Push to Render
@@ -126,11 +128,11 @@ Plan out what tasks will get completed with each lesson remaining in the semeste
 | HTTP POST | Tianna
 | HTTP PUT | Kelsey
 | HTTP DELETE | Kelsey
-| OAuth | Shauntal
+| OAuth | Sam
 | Validation | John
 | Error Handling | Shauntal
-| Unit Testing | as a team Lesson 12
-| Video presentation, all routes functioning, MongoDB data being modified, and API documentation | as a team Lesson 13
+| Unit Testing | as a team Lesson 12 (Friday)
+| Video presentation, all routes functioning, MongoDB data being modified, and API documentation | as a team Lesson 13 (Tuesday)
 
 ## Potential Risks and Risk Mitigation Techniques
 

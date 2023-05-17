@@ -1,0 +1,38 @@
+[
+    {
+        "firstName": "Samantha",
+        "lastName": "Smith",
+        "address": "4865 S Frontier Street, Tempe, AZ 85281",
+        "phoneNumber": "4805216523",
+        "email": "samantha.smith@gmail.com",
+        "birthday": "April 20, 1987",
+        "allFamilyMembers": "Derick, Samantha, Eric, Savannah"
+    },
+    {
+        "firstName": "DJ",
+        "lastName": "Tanner",
+        "address": "1546 W Rockpoint Road, Tempe, AZ 85282",
+        "phoneNumber": "6029457845",
+        "email": "dj.tanner@gmail.com",
+        "birthday": "November 30, 1974",
+        "allFamilyMembers": "DJ, Karen, Lerick, Dierdra, Jethro, Mercedes"
+    },
+    {
+        "firstName": "Bethany",
+        "lastName": "Jordans",
+        "address": "5648 E Secret Circle, Tempe, AZ 85282",
+        "phoneNumber": "4805781265",
+        "email": "bethany.jordans@gmail.com",
+        "birthday": "February 28, 1984",
+        "allFamilyMembers": "Ian, Bethany, Sam, Sarah, Samantha"
+    },
+    {
+        "firstName": "Gillian",
+        "lastName": "Lovelace",
+        "address": "8945 S Jimmy Avenue, Tempe, AZ 85282",
+        "phoneNumber": "4805975654",
+        "email": "gillian.lovelace@gmail.com",
+        "birthday": "September 13, 1989",
+        "allFamilyMembers": "Jared, Gillian, Leonardo"
+    }
+]
