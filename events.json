@@ -1,0 +1,90 @@
+[
+    {
+        "title": "Meet the Teacher Night",
+        "date": "July 18, 2023",
+        "time": "6 - 8 p.m.",
+        "location": "1325 E Malibu Drive, Tempe, AZ 85282",
+        "details": "Come and meet your new teacher for the year.",
+        "volunteersNeeded": "Greeter, flyer handout, set up, take down"
+    },
+    {
+        "title": "Peter Piper Pizza Fundraiser",
+        "date": "August 9, 2023",
+        "time": "5 - 9 p.m.",
+        "location": "1805 E Baseline Road, Tempe, AZ 85282",
+        "details": "Show up anytime between 5 and 9. Enjoy pizza and 10 free tokens.",
+        "volunteersNeeded": "Print, cut, give flyer"
+    },
+    {
+        "title": "PTA Meeting",
+        "date": "September 13, 2023",
+        "time": "6 p.m.",
+        "location": "1325 E Malibu Drive, Tempe, AZ 85282",
+        "details": "Come and catch up on all things PTA. Pizza and babysitting provided.",
+        "volunteersNeeded": "Pick up pizza"
+    },
+    {
+        "title": "Trunk or Treat",
+        "date": "October 27, 2023",
+        "time": "5 - 7 p.m.",
+        "location": "1325 E Malibu Drive, Tempe, AZ 85282",
+        "details": "Come dressed up. Make sure to pick treat and not trick. There will be food trucks, mazes, cotton candy, and more. Admission is free.",
+        "volunteersNeeded": "Donate candy, trunks(decorate and hand out candy), bouncy house supervisor, cotton candy stand, setup, and take down."
+    },
+    {
+        "title": "Fun Run",
+        "date": "November 23, 2023",
+        "time": "1 - 2:30 p.m.",
+        "location": "1325 E Malibu Drive, Tempe, AZ 85282",
+        "details": "Make sure to pledge. T-shirts will be provided. Expect to be covered in color by the end of the run.",
+        "volunteersNeeded": "Hand out t-shirts, throw color, laps counter, setup, and take down."
+    },
+    {
+        "title": "Family Movie Night",
+        "date": "December 2, 2023",
+        "time": "6 - 10 p.m.",
+        "location": "1325 E Malibu Drive, Tempe, AZ 85282",
+        "details": "Bring chairs, blankets, and dinner. There will be a concession stand, popcorn, and hot chocolate. Movie will start at sundown.",
+        "volunteersNeeded": "Concession stand, hand out popcorn/hot chocolate, setup, and take down."
+    },
+    {
+        "title": "HundredX Fundraiser",
+        "date": "January 23-27, 2023",
+        "time": "Start at 7:50 on Jan 23, end 11 p.m. on Jan 27",
+        "location": "Your home",
+        "details": "Fill out at lease 75 surveys to earn money for your children at school.",
+        "volunteersNeeded": "Make flyers, put up posters."
+    },
+    {
+        "title": "Winter Carnival",
+        "date": "February 11, 2023",
+        "time": "10 a.m. - 2 p.m.",
+        "location": "1325 E Malibu Drive, Tempe, AZ 85282",
+        "details": "Come and enjoy carnival games, food trucks, bouncy houses, and cotton candy. Admission is free.",
+        "volunteersNeeded": "Greeter, bouncy house supervisor, carnival games supervisors, cotton candy stand, set up, and take down."
+    },
+    {
+        "title": "Art Walk",
+        "date": "March, 2023",
+        "time": "6 - 8 p.m.",
+        "location": "1325 E Malibu Drive, Tempe, AZ 85282",
+        "details": "Come and enjoy seeing all the art work done by your child. Admission is free.",
+        "volunteersNeeded": "Put up art work, run PTA snack booth, greeter, setup, and take down."
+    },
+    {
+        "title": "Peter Piper Pizza Fundraiser",
+        "date": "April 25, 2023",
+        "time": "5 - 9 p.m.",
+        "location": "1805 E Baseline Road, Tempe, AZ 85282",
+        "details": "Show up anytime between 5 and 9. Enjoy pizza and 10 free tokens.",
+        "volunteersNeeded": "Print, cut, give flyer"
+    },
+    {
+        "title": "Hello, Good bye, Dance",
+        "date": "May 17, 2023",
+        "time": "5 - 6:30 p.m.",
+        "location": "1325 E Malibu Drive, Tempe, AZ 85282",
+        "details": "Grade 4 and 5 students come and enjoy some music and fun. There will be a DJ, black lights, games, and snacks.",
+        "volunteersNeeded": "Hand out snacks, bathrooms supervisor, setup, and take down."
+    }
+]
