@@ -7,5 +7,4 @@ routes.post('/', usersController.createUsers);
 routes.put('/:username', usersController.updateUser);
 routes.delete('/:username', usersController.deleteUser);
 
-
-module.exports = routes; 
+module.exports = routes;

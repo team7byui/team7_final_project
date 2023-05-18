@@ -2,6 +2,7 @@
     "cSpell.words": [
         "autogen",
         "Byrne",
+        "dateonly",
         "Despain",
         "Shauntal",
         "Sudds",
@@ -9,5 +10,6 @@
     ],
     "editor.formatOnSaveMode": "file",
     "editor.formatOnSave": true,
-    "eslint.format.enable": true
+    "eslint.format.enable": true,
+    "workbench.editor.labelFormat": "short"
 }
