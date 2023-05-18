@@ -10,5 +10,6 @@
     ],
     "editor.formatOnSaveMode": "file",
     "editor.formatOnSave": true,
-    "eslint.format.enable": true
+    "eslint.format.enable": true,
+    "workbench.editor.labelFormat": "short"
 }
