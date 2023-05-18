@@ -42,42 +42,42 @@ For this section, you’ll plan out what API endpoints you’ll need for your pr
 
 ### administration
 
-* [ ] POST /administration
+* [x] POST /administration
 * [ ] PUT /administration/{administrationID}
-* [ ] GET /administration/findByPosition
+* [x] GET /administration/findByPosition
 * [ ] DELETE /administration/{administrationID}
 
 ### members
 
-* [ ] GET /members
+* [x] GET /members
 * [ ] PUT /members/{memberID}
-* [ ] POST /members
-* [ ] GET /members/{memberID}
+* [x] POST /members
+* [x] GET /members/{memberID}
 * [ ] DELETE /members/{memberID}
 
 ### user
 
-* [ ] POST /user
+* [x] POST /user
 * [ ] POST /user/createWithArray
 * [ ] POST /user/createWithList
 * [ ] GET /user/login
 * [ ] GET /user/logout
-* [ ] GET /user/{username}
+* [x] GET /user/{username}
 * [ ] PUT /user/{username}
 * [ ] DELETE /user/{username}
 
 ### volunteers
 
-* [ ] POST /volunteers
+* [x] POST /volunteers
 * [ ] PUT /volunteers/{username}
-* [ ] GET /volunteers
+* [x] GET /volunteers
 * [ ] DELETE/volunteers
 
 ### events - ADMIN LOCKED
 
-* [ ] GET/events
-* [ ] GET/events/{eventName}
-* [ ] POST/events
+* [x] GET/events
+* [x] GET/events/{eventName}
+* [x] POST/events
 * [ ] PUT/events/{eventName}
 * [ ] DELETE/members
 
