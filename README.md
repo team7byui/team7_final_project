@@ -45,7 +45,6 @@ For this section, you’ll plan out what API endpoints you’ll need for your pr
 * [ ] POST /administration
 * [ ] PUT /administration/{administrationID}
 * [ ] GET /administration/findByPosition
-* [ ] POST /administration
 * [ ] DELETE /administration/{administrationID}
 
 ### members
