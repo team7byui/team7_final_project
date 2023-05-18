@@ -40,13 +40,21 @@ We could implement GraphQL in order to go above and beyond and receive extra cre
 
 For this section, you’ll plan out what API endpoints you’ll need for your project.
 
+### models
+
+* [x] administration
+* [x] members
+* [x] users
+* [x] volunteers
+* [x] events
+
 ### administration
 
-* [ ] POST /administration
-* [ ] PUT /administration/{administrationID}
-* [ ] GET /administration/findByPosition
-* [ ] POST /administration
-* [ ] DELETE /administration/{administrationID}
+* [x] POST /administration
+* [x] PUT /administration/{administrationID}
+* [x] GET /administration/findByPosition
+* [x] POST /administration
+* [x] DELETE /administration/{administrationID}
 
 ### members
 
