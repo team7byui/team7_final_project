@@ -1,7 +1,6 @@
 const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 
-
 const updateAdministration = async (req, res) => {
     const administrationId = new ObjectId(req.params.id);
     const administration = {
@@ -10,11 +9,11 @@ const updateAdministration = async (req, res) => {
         address: req.body.address,
         email: req.body.email,
         phoneNumber: req.body.phoneNumber,
-        position: req.body.birthday
+        position: req.body.position
       };
     const response = await mongodb
       .getDb()
-      .db('ClubOrganization')
+      .db()
       .collection('administration')
       .replaceOne({ _id: administrationId }, administration);
     console.log(response);
@@ -23,8 +22,7 @@ const updateAdministration = async (req, res) => {
     } else {
       res.status(500).json(response.error || 'Some error occurred while updating the admin.');
     }
-  };
-  
+};
 
 //Delete Working
 const deleteAdministration = async (req, res) => {
