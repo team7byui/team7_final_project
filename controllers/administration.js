@@ -2,6 +2,40 @@ const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 
 
+const findByPosition = async (request, response) => {
+  try {
+    const position = new ObjectId(request.params.position);
+    const result = await mongodb.getDb().db('ClubOrganization').collection('administration').find({ _id: position });
+    result.toArray().then((lists) => {
+      response.setHeader('Content-Type', 'application/json');
+      response.status(200).json(lists[0]);
+    });
+  } catch (err) {
+    response.status(500).json(err);
+  }
+};
+
+const createAdministration= async (request, response) => {
+  try {
+    const Administration = {
+      firstName: request.body.firstName,
+      lastName: request.body.lastName,
+      address: request.body.address,
+      email: request.body.email,
+      phoneNumber: request.body.phoneNumber,
+      position: request.body.position
+    };
+    const res = await mongodb.getDb().db('ClubOrganization').collection('administration').insertOne(Administration);
+    if (res.acknowledged) {
+      response.status(201).json(res);
+    } else {
+      response.status(500).json(res.error || 'Error occurred while creating your administration.');
+    }
+  } catch (err) {
+    response.status(500).json(err);
+  }
+};
+
 const updateAdministration = async (req, res) => {
     const administrationId = new ObjectId(req.params.id);
     const administration = {
@@ -38,4 +72,4 @@ const deleteAdministration = async (req, res) => {
   }
 };
 
-module.exports = { updateAdministration, deleteAdministration };
+module.exports = {findByPosition, createAdministration, updateAdministration, deleteAdministration };
