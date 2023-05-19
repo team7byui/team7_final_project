@@ -16,12 +16,13 @@
     },
     "workbench.editor.labelFormat": "short",
     "rest-client.environmentVariables": {
-        "$shared": {},
-        "Development": {
+        "$shared": {
             "host": "http://localhost:5012"
         },
+        "Development": {
+        },
         "Production": {
-            "host": "https://team7-final-project-jsuddsjr.onrender.com"
+            "host": "https://team7project.onrender.com"
         }
     }
 }
