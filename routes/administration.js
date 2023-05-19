@@ -6,7 +6,7 @@ const {
   reportValidationErrors,
 } = require("../middleware/validate");
 
-routes.get("/", administrationController.findAll);
+routes.get("/", administrationController.findAllAdmin);
 
 routes.get("/:id", administrationController.getSingle);
 
