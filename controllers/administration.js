@@ -30,12 +30,14 @@ const findByPosition = async (request, response) => {
   // #swagger.description=Finds an admin members info based off their position
   try {
     if (ObjectId.isValid(request.params.position)) {
-      const position = new ObjectId(request.params.position);
-      const result = await mongodb.getDb().db('ClubOrganization').collection('administration').find({ _id: position });
-      result.toArray().then((lists) => {
+      const newPosition = new ObjectId(request.params.position);
+      const result = await mongodb.getDb().db('ClubOrganization').collection('administration').find({ position: newPosition }).toArray();
+      if (result.length > 0) {
         response.setHeader('Content-Type', 'application/json');
-        response.status(200).json(lists[0]);
-      });
+        response.status(200).json(result[0]);
+      } else {
+        response.status(400).json(result.error || 'Could not get admin info.');
+      };
     } else {
       response.status(400).json('Must use a valid position to find information.');
     }
@@ -53,8 +55,8 @@ const createAdministration = async (request, response) => {
       firstName: request.body.firstName,
       lastName: request.body.lastName,
       address: request.body.address,
-      email: request.body.email,
       phoneNumber: request.body.phoneNumber,
+      email: request.body.email,
       position: request.body.position
     };
     const res = await mongodb.getDb().db('ClubOrganization').collection('administration').insertOne(Administration);
@@ -79,8 +81,8 @@ const updateAdministration = async (req, res) => {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         address: req.body.address,
-        email: req.body.email,
         phoneNumber: req.body.phoneNumber,
+        email: req.body.email,
         position: req.body.position
       };
       const response = await mongodb

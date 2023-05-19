@@ -43,9 +43,10 @@ For this section, you’ll plan out what API endpoints you’ll need for your pr
 ### administration
 
 * [x] POST /administration
-* [ ] PUT /administration/{administrationID}
+* [x] PUT /administration/{administrationID}
 * [x] GET /administration/findByPosition
-* [ ] DELETE /administration/{administrationID}
+* [x]  GET /administration
+* [x] DELETE /administration/{administrationID}
 
 ### members
 
@@ -58,8 +59,6 @@ For this section, you’ll plan out what API endpoints you’ll need for your pr
 ### user
 
 * [x] POST /user
-* [ ] POST /user/createWithArray
-* [ ] POST /user/createWithList
 * [ ] GET /user/login
 * [ ] GET /user/logout
 * [x] GET /user/{username}
@@ -71,6 +70,7 @@ For this section, you’ll plan out what API endpoints you’ll need for your pr
 * [x] POST /volunteers
 * [ ] PUT /volunteers/{username}
 * [x] GET /volunteers
+* [x] GET /volunteers/{event}
 * [ ] DELETE/volunteers
 
 ### events - ADMIN LOCKED
@@ -95,7 +95,7 @@ Plan out what tasks will get completed with each lesson remaining in the semeste
 * [x] Set up MongoDB
 * [x] Set up Nodejs project code
 * [ ] API DOCUMENTATION is complete and available at route ‘/api-docs’
-* [ ] GET, POST Requests
+* [x] GET, POST Requests
 * [ ] Push to Render
 
 ### Lesson 11 Tasks - Tuesday
@@ -107,7 +107,7 @@ Plan out what tasks will get completed with each lesson remaining in the semeste
 * [ ] OAuth
 * [ ] maybe GraphQL
 * [ ] Validation
-* [ ] Error Handling
+* [x] Error Handling
 * [ ] Unit Testing
 
 ### Lesson 13 Tasks - Tuesday

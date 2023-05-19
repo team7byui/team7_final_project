@@ -3,6 +3,7 @@ const router = require('express').Router();
 router.get('/', (request, response) => {
   response.send('Index page.');
 });
+router.use('/', require('./swagger'));
 router.use('/administration', require('./administration'));
 router.use('/users', require('./users'));
 router.use('/members', require('./members'));
