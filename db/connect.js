@@ -16,8 +16,8 @@ const initDb = (callback) => {
     })
     .catch((err) => {
       callback(err);
-    })
-}
+    });
+};
 
 const getDb = () => {
   if (!_db) {
