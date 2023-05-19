@@ -10,7 +10,7 @@ GET {{host}}/administration/President
 @presidentId = {{president.response.body._id}}
 
 ### Submit a bad request to test validation.
-PUT http://localhost:5012/administration/president
+PUT {{host}}/administration/{{presidentId}}
 Content-Type: application/json
 
 {
