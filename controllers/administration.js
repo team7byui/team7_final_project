@@ -64,20 +64,20 @@ const createAdministration = async (request, response) => {
 };
 
 const updateAdministration = async (req, res) => {
-  const administrationId = new ObjectId(req.params.id);
-  const administration = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    address: req.body.address,
-    email: req.body.email,
-    phoneNumber: req.body.phoneNumber,
-    position: req.body.birthday,
+  const position = new ObjectId(req.params.position);
+  const Administration = {
+    firstName: request.body.firstName,
+    lastName: request.body.lastName,
+    address: request.body.address,
+    email: request.body.email,
+    phoneNumber: request.body.phoneNumber,
+    position: request.body.position,
   };
   const response = await mongodb
     .getDb()
     .db("ClubOrganization")
     .collection("administration")
-    .replaceOne({ _id: administrationId }, administration);
+    .replaceOne({ _id: position }, Administration);
   console.log(response);
   if (response.modifiedCount > 0) {
     res.status(204).send();
@@ -95,7 +95,7 @@ const deleteAdministration = async (req, res) => {
     .getDb()
     .db("ClubOrganization")
     .collection("administration")
-    .deleteOne({ _id: administrationId }, true);
+    .deleteOne({ _id: position }, true);
   console.log(response);
   if (response.deletedCount > 0) {
     res.status(204).send();

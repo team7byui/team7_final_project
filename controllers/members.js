@@ -49,13 +49,31 @@ const createMembers= async (request, response) => {
 };
 
 const updateMember = async (req, res) => {
-    
+  const memberID = new ObjectId(request.params.id);
+  const members = {
+    firstName: request.body.firstName,
+    lastName: request.body.lastName,
+    address: request.body.address,
+    phoneNumber: request.body.phoneNumber,
+    email: request.body.email,
+    birthday: request.body.birthday,
+    allFamilyMembers: request.body.allFamilyMembers
+  };
+  const membersCollection = getCollection();
+      const result = await membersCollection.replaceOne({ memberID:memberID }, members);
+      console.log(result);
   };
   
 
-//Delete Working
 const deleteMember = async (req, res) => {
-  
+  const memberID = new ObjectId(request.params.id);
+  const response = await mongodb.getDb().db('ClubOrganization').collection('members').deleteOne({ _id: memberID }, true);
+  console.log(response);
+  if (response.deletedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || 'Error occurred while deleting the member.');
+  }
 };
 
 module.exports = { getAll, getSingle, createMembers, updateMember, deleteMember };
