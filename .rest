@@ -1,13 +1,10 @@
 // NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
 
 ###
+# @name president
 GET {{host}}/administration
 
-### 
-# @name president
-GET {{host}}/administration/President
-
-@presidentId = {{president.response.body._id}}
+@presidentId = {{president.response.body.$[0]._id}}
 
 ### Submit a bad request to test validation.
 PUT {{host}}/administration/{{presidentId}}
