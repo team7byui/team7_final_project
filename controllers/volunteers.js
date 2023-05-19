@@ -33,7 +33,23 @@ const createVolunteer= async (request, response) => {
 
 
 const updateVolunteer = async (req, res) => {
-    
+  const name = new ObjectId(request.params.name);
+  const volunteers = {
+    event: request.body.event,
+    opportunity: request.body.opportunity,
+    name: request.body.name,
+  };
+  const response = await mongodb
+    .getDb()
+    .db('ClubOrganization')
+    .collection('users')
+    .replaceOne({ _id: name }, volunteers);
+  console.log(response);
+  if (response.modifiedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || 'Some error occurred while updating the volunteer.');
+  }
   };
   
 

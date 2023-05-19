@@ -32,13 +32,34 @@ const createUsers= async (request, response) => {
 };
 
 const updateUser = async (req, res) => {
-    
+  const username = new ObjectId(request.params.username);
+  const users = {
+    username: request.body.username,
+    password: request.body.password,
+  };
+  const response = await mongodb
+    .getDb()
+    .db('ClubOrganization')
+    .collection('users')
+    .replaceOne({ _id: username }, users);
+  console.log(response);
+  if (response.modifiedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || 'Some error occurred while updating the user.');
+  }
   };
   
 
-//Delete Working
 const deleteUser = async (req, res) => {
-  
+  const username = new ObjectId(request.params.username);
+  const response = await mongodb.getDb().db('ClubOrganization').collection('members').deleteOne({ _id: username }, true);
+  console.log(response);
+  if (response.deletedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || 'Error occurred while deleting the user.');
+  }
 };
 
 module.exports = { getByUsername, createUsers, updateUser, deleteUser };
