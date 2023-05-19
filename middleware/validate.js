@@ -1,22 +1,22 @@
-const { body, validationResult, param } = require("express-validator");
-const { passwordPass } = require("../util/passwordComplexityCheck");
-const ObjectId = require("mongoose").Types.ObjectId;
+const { body, validationResult, param } = require('express-validator');
+const { passwordPass } = require('../util/passwordComplexityCheck');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 const isValidObjectId = (id) =>
   ObjectId.isValid(id) && String(new ObjectId(id)) === id;
 
 const emailChain = () =>
-  body("email")
+  body('email')
     .trim()
     .normalizeEmail()
     .isEmail()
-    .withMessage("The email format is unrecognized.");
+    .withMessage('The email format is unrecognized.');
 
 const phoneChain = () =>
-  body("phoneNumber")
-    .whitelist("0123456789")
+  body('phoneNumber')
+    .whitelist('0123456789')
     .isLength({ min: 10, max: 10 })
-    .withMessage("Please use a 10 digit phone number.");
+    .withMessage('Please use a 10 digit phone number.');
 
 const dateChain = (field) =>
   body(field)
@@ -37,7 +37,7 @@ const timeChain = (field) =>
 const requiredChain = (field) =>
   body(field)
     .trim()
-    .exists({ values: "falsy" })
+    .exists({ values: 'falsy' })
     .withMessage((value, meta) => `${meta.path} is required.`);
 
 module.exports = {
@@ -55,9 +55,9 @@ module.exports = {
   userValidationRules: () => {
     return [
       // username must be an email
-      emailChain("username"),
+      requiredChain('username'),
       // validate against complexity rules
-      body("password").custom(passwordPass),
+      body('password').custom(passwordPass),
     ];
   },
 
@@ -66,10 +66,11 @@ module.exports = {
    */
   personValidationRules: () => {
     return [
-      requiredChain("firstName"),
-      requiredChain("lastName"),
+      requiredChain('firstName'),
+      requiredChain('lastName'),
       phoneChain(),
       emailChain(),
+      dateChain('birthday').optional()
     ];
   },
 
@@ -78,10 +79,10 @@ module.exports = {
    */
   eventValidationRules: () => {
     return [
-      requiredChain("title"),
-      dateChain("date"),
-      timeChain("time"),
-      requiredChain("location"),
+      requiredChain('title'),
+      dateChain('date'),
+      timeChain('time'),
+      requiredChain('location'),
     ];
   },
 
@@ -90,9 +91,9 @@ module.exports = {
    * @param {import('express').Request} req
    * @param {import('express').Response} res
    * @param {import('express').NextFunction} next
-   * @returns
+   * @returns Handler function for route
    */
-  reportValidationErrors: (req, res, next) => {
+  reportValidationErrors: () => (req, res, next) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
       return next();

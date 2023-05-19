@@ -12,7 +12,7 @@
     },
     "rules": {
         "indent": ["error", 2],
-        "quotes": ["error", "double"],
+        "quotes": ["warn", "single"],
         "semi": ["error", "always"],
         "no-trailing-spaces": "error",
         "max-len": ["error", 100],
