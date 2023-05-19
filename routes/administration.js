@@ -8,7 +8,11 @@ const {
 
 routes.get("/", administrationController.findAllAdmin);
 
-routes.get("/:id", administrationController.getSingle);
+routes.get("/:id",
+  idParamRequired("id"),
+  reportValidationErrors,
+  administrationController.getSingle
+);
 
 routes.post(
   "/",
