@@ -50,10 +50,12 @@ For this section, you’ll plan out what API endpoints you’ll need for your pr
 
 ### administration
 
+* [x] GET /adminstration
+* [x] GET /administration/{id}
 * [x] POST /administration
-* [ ] PUT /administration/{administrationID}
+* [x] PUT /administration/{administrationID}
 * [x] GET /administration/findByPosition
-* [ ] DELETE /administration/{administrationID}
+* [x] DELETE /administration/{administrationID}
 
 ### members
 
