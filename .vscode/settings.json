@@ -11,5 +11,17 @@
     "editor.formatOnSaveMode": "file",
     "editor.formatOnSave": true,
     "eslint.format.enable": true,
-    "workbench.editor.labelFormat": "short"
+    "[javascript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "workbench.editor.labelFormat": "short",
+    "rest-client.environmentVariables": {
+        "$shared": {},
+        "Development": {
+            "host": "http://localhost:5012"
+        },
+        "Production": {
+            "host": "https://team7-final-project-jsuddsjr.onrender.com"
+        }
+    }
 }

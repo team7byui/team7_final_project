@@ -6,14 +6,15 @@
         "mongo": true,
         "node": true
     },
-    "extends": "standard",
-    "overrides": [
-    ],
+    "extends": "eslint:recommended",
     "parserOptions": {
         "ecmaVersion": "latest"
     },
     "rules": {
-        "semi": ["warn", "always"],
-        "no-trailing-spaces": "error"
+        "indent": ["error", 2],
+        "quotes": ["error", "double"],
+        "semi": ["error", "always"],
+        "no-trailing-spaces": "error",
+        "max-len": ["error", 100]
     }
 }

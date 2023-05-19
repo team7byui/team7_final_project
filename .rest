@@ -1,0 +1,22 @@
+// NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
+
+###
+GET {{host}}/administration
+
+### 
+# @name president
+GET {{host}}/administration/President
+
+@presidentId = {{president.response.body._id}}
+
+###
+PUT {{host}}/administration/{{presidentId}}
+
+{
+    "firstName": "",
+    "lastName": "",
+    "address": "",
+    "phoneNumber": "badPhone",
+    "email": "notAnEmail",
+    "position": ""
+}
