@@ -32,7 +32,7 @@ const createUsers= async (request, response) => {
 };
 
 const updateUser = async (req, res) => {
-  const username = new ObjectId(request.params.username);
+  const username = request.params.username;
   const users = {
     username: request.body.username,
     password: request.body.password,
@@ -41,7 +41,7 @@ const updateUser = async (req, res) => {
     .getDb()
     .db('ClubOrganization')
     .collection('users')
-    .replaceOne({ _id: username }, users);
+    .replaceOne({ username: username }, users);
   console.log(response);
   if (response.modifiedCount > 0) {
     res.status(204).send();
@@ -52,8 +52,8 @@ const updateUser = async (req, res) => {
   
 
 const deleteUser = async (req, res) => {
-  const username = new ObjectId(request.params.username);
-  const response = await mongodb.getDb().db('ClubOrganization').collection('members').deleteOne({ _id: username }, true);
+  const username = request.params.username;
+  const response = await mongodb.getDb().db('ClubOrganization').collection('members').deleteOne({ username: username }, true);
   console.log(response);
   if (response.deletedCount > 0) {
     res.status(204).send();

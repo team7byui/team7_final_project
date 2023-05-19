@@ -33,7 +33,7 @@ const createVolunteer= async (request, response) => {
 
 
 const updateVolunteer = async (req, res) => {
-  const name = new ObjectId(request.params.name);
+  const name = request.params.name;
   const volunteers = {
     event: request.body.event,
     opportunity: request.body.opportunity,
@@ -43,7 +43,7 @@ const updateVolunteer = async (req, res) => {
     .getDb()
     .db('ClubOrganization')
     .collection('users')
-    .replaceOne({ _id: name }, volunteers);
+    .replaceOne({ name: name }, volunteers);
   console.log(response);
   if (response.modifiedCount > 0) {
     res.status(204).send();
@@ -55,7 +55,14 @@ const updateVolunteer = async (req, res) => {
 
 //Delete Working
 const deleteVolunteer = async (req, res) => {
-  
+  const name = request.params.name;
+  const response = await mongodb.getDb().db('ClubOrganization').collection('members').deleteOne({ name: name }, true);
+  console.log(response);
+  if (response.deletedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || 'Error occurred while deleting the user.');
+  }
 };
 
 module.exports = { getAll, createVolunteer, updateVolunteer, deleteVolunteer };

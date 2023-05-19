@@ -49,7 +49,7 @@ const createMembers= async (request, response) => {
 };
 
 const updateMember = async (req, res) => {
-  const memberID = new ObjectId(request.params.id);
+  const memberID = request.params.id;
   const members = {
     firstName: request.body.firstName,
     lastName: request.body.lastName,
@@ -60,7 +60,7 @@ const updateMember = async (req, res) => {
     allFamilyMembers: request.body.allFamilyMembers
   };
   const membersCollection = getCollection();
-      const result = await membersCollection.replaceOne({ memberID:memberID }, members);
+      const result = await membersCollection.replaceOne({ _id:memberID }, members);
       console.log(result);
   };
   
