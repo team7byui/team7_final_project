@@ -5,6 +5,7 @@
         "dateonly",
         "Despain",
         "Shauntal",
+        "stroustrup",
         "Sudds",
         "Tianna"
     ],
@@ -15,6 +16,7 @@
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
     "workbench.editor.labelFormat": "short",
+    "rest-client.logLevel": "info",
     "rest-client.environmentVariables": {
         "$shared": {
             "host": "http://localhost:5012"

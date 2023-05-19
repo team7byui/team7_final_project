@@ -1,14 +1,15 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
-const MongoClient = require('mongodb').MongoClient;
+const MongoClient = require("mongodb").MongoClient;
 
 let _db;
 
 const initDb = (callback) => {
   if (_db) {
-    console.log('Db is already initialized!');
+    console.log("Db is already initialized!");
     return callback(null, _db);
   }
+  // eslint-disable-next-line max-len
   MongoClient.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@team7.cvagdmh.mongodb.net/ClubOrganization`)
     .then((client) => {
       _db = client;
@@ -19,9 +20,14 @@ const initDb = (callback) => {
     });
 };
 
+/**
+ * Get the current MongoDB client connection.
+ * @returns {MongoClient}
+ * @throws If initDb not called first.
+ */
 const getDb = () => {
   if (!_db) {
-    throw Error('Db not initialized.');
+    throw Error("Db not initialized.");
   }
   return _db;
 };

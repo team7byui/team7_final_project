@@ -9,16 +9,16 @@ const findAllAdmin = async (request, response) => {
   try {
     const result = await mongodb
       .getDb()
-      .db('ClubOrganization')
-      .collection('administration')
+      .db("ClubOrganization")
+      .collection("administration")
       .find()
       .toArray();
     // Error handling
     if (result.length > 0) {
-      response.setHeader('Content-Type', 'application/json');
+      response.setHeader("Content-Type", "application/json");
       response.status(200).json(result);
     } else {
-      response.status(400).json(result.error || 'Could not get all admin info.');
+      response.status(400).json(result.error || "Could not get all admin info.");
     }
 
   } catch (err) {
@@ -35,13 +35,17 @@ const getSingle = async (request, response) => {
     const userId = new ObjectId(request.params.id);
     const result = await mongodb
       .getDb()
-      .db('ClubOrganization')
-      .collection('administration')
+      .db("ClubOrganization")
+      .collection("administration")
       .find({ _id: userId });
 
     result.toArray().then((lists) => {
-      response.setHeader("Content-Type", "application/json");
-      response.status(200).json(lists[0]);
+      if (lists.length) {
+        response.setHeader("Content-Type", "application/json");
+        response.status(200).json(lists[0]);
+      } else {
+        response.status(404).json("Could not find admin info.");
+      }
     });
   } catch (err) {
     response.status(500).json(err);
@@ -65,8 +69,8 @@ const createAdministration = async (request, response) => {
     };
     const res = await mongodb
       .getDb()
-      .db('ClubOrganization')
-      .collection('administration')
+      .db("ClubOrganization")
+      .collection("administration")
 
       .insertOne(Administration);
     if (res.acknowledged) {
@@ -75,7 +79,7 @@ const createAdministration = async (request, response) => {
       response
         .status(500)
         .json(
-          res.error || 'Error occurred while creating your administration.'
+          res.error || "Error occurred while creating your administration."
         );
     }
   } catch (err) {
@@ -87,19 +91,19 @@ const updateAdministration = async (req, res) => {
   // #swagger.tags=['Administration']
   // #swagger.summary=Update an admins info based off id
   // #swagger.description=Changes an admin members info based off their position
-  const administrationId = new ObjectId(req.params.id);
+  const administrationId = new ObjectId(req.params.administrationId);
   const administration = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     address: req.body.address,
     email: req.body.email,
     phoneNumber: req.body.phoneNumber,
-    position: req.body.birthday
+    position: req.body.position
   };
   const response = await mongodb
     .getDb()
-    .db('ClubOrganization')
-    .collection('administration')
+    .db("ClubOrganization")
+    .collection("administration")
     .replaceOne({ _id: administrationId }, administration);
   console.log(response);
   if (response.modifiedCount > 0) {
@@ -107,7 +111,7 @@ const updateAdministration = async (req, res) => {
   } else {
     res
       .status(500)
-      .json(response.error || 'Some error occurred while updating the admin.');
+      .json(response.error || "Some error occurred while updating the admin.");
   }
 };
 
@@ -116,11 +120,11 @@ const deleteAdministration = async (req, res) => {
   // #swagger.tags=['Administration']
   // #swagger.summary=Delete an admins info based off id
   // #swagger.description=Deletes an admin members info based off their position
-  const administrationId = new ObjectId(req.params.id);
+  const administrationId = new ObjectId(req.params.administrationId);
   const response = await mongodb
     .getDb()
-    .db('ClubOrganization')
-    .collection('administration')
+    .db("ClubOrganization")
+    .collection("administration")
     .deleteOne({ _id: administrationId }, true);
   console.log(response);
   if (response.deletedCount > 0) {
@@ -128,7 +132,7 @@ const deleteAdministration = async (req, res) => {
   } else {
     res
       .status(500)
-      .json(response.error || 'Error occurred while deleting the admin.');
+      .json(response.error || "Error occurred while deleting the admin.");
 
   }
 };

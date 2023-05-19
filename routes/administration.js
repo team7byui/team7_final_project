@@ -1,34 +1,38 @@
-const routes = require("express").Router();
-const administrationController = require("../controllers/administration");
+const routes = require('express').Router();
+const administrationController = require('../controllers/administration');
 const {
   idParamRequired,
   personValidationRules,
   reportValidationErrors,
-} = require("../middleware/validate");
+} = require('../middleware/validate');
 
-routes.get("/", administrationController.findAllAdmin);
+routes.get('/', administrationController.findAllAdmin);
 
-routes.get("/:id", administrationController.getSingle);
+routes.get('/:id',
+  idParamRequired('id'),
+  reportValidationErrors(),
+  administrationController.getSingle
+);
 
 routes.post(
-  "/",
+  '/',
   personValidationRules(),
-  reportValidationErrors,
+  reportValidationErrors(),
   administrationController.createAdministration
 );
 
 routes.put(
-  "/:administrationId",
-  idParamRequired("administrationId"),
+  '/:administrationId',
+  idParamRequired('administrationId'),
   personValidationRules(),
-  reportValidationErrors,
+  reportValidationErrors(),
   administrationController.updateAdministration
 );
 
 routes.delete(
-  "/:administrationId",
-  idParamRequired("administrationId"),
-  reportValidationErrors,
+  '/:administrationId',
+  idParamRequired('administrationId'),
+  reportValidationErrors(),
   administrationController.deleteAdministration
 );
 

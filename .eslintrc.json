@@ -12,9 +12,10 @@
     },
     "rules": {
         "indent": ["error", 2],
-        "quotes": ["error", "double"],
+        "quotes": ["warn", "single"],
         "semi": ["error", "always"],
         "no-trailing-spaces": "error",
-        "max-len": ["error", 100]
+        "max-len": ["error", 100],
+        "brace-style": ["error", "1tbs", { "allowSingleLine": true }]
     }
 }
