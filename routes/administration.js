@@ -8,7 +8,7 @@ const {
 
 routes.get("/", administrationController.findAll);
 
-routes.get("/:position", administrationController.findByPosition);
+routes.get("/:id", administrationController.getSingle);
 
 routes.post(
   "/",

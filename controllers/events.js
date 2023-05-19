@@ -2,6 +2,9 @@ const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 
 const getAll = async (request, response) => {
+  // #swagger.tags=['Events']
+  // #swagger.summary=Show all events info
+  // #swagger.description=Displays all events info
   try {
     const result = await mongodb.getDb().db('ClubOrganization').collection('events').find();
     result.toArray().then((lists) => {
@@ -13,10 +16,17 @@ const getAll = async (request, response) => {
   }
 };
 
-const getByName = async (request, response) => {
+const getSingle = async (request, response) => {
+  // #swagger.tags=['Events']
+  // #swagger.summary=Show event info based off title
+  // #swagger.description=Displays event info based off title
   try {
-    const eventName = new ObjectId(request.params.title);
-    const result = await mongodb.getDb().db('ClubOrganization').collection('events').find({ _id: eventName });
+    const userId = new ObjectId(request.params.id);
+    const result = await mongodb
+      .getDb()
+      .db('ClubOrganization')
+      .collection('events')
+      .find({ _id: userId });
     result.toArray().then((lists) => {
       response.setHeader('Content-Type', 'application/json');
       response.status(200).json(lists[0]);
@@ -26,8 +36,10 @@ const getByName = async (request, response) => {
   }
 };
 
-
-const createEvent= async (request, response) => {
+const createEvent = async (request, response) => {
+  // #swagger.tags=['Events']
+  // #swagger.summary=Create an event
+  // #swagger.description=Fill in event info to create event
   try {
     const events = {
       title: request.body.title,
@@ -47,7 +59,6 @@ const createEvent= async (request, response) => {
     response.status(500).json(err);
   }
 };
-
 
 const updateEvent = async (req, res) => {
   const eventName = req.params.eventName;
@@ -74,4 +85,4 @@ const deleteEvent = async (req, res) => {
       res.status(200).json(result[0]);
 };
 
-module.exports = { getAll, getByName, createEvent, updateEvent, deleteEvent };
+module.exports = { getAll, getSingle, createEvent, updateEvent, deleteEvent };

@@ -1,8 +1,10 @@
 const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 
-
 const getAll = async (request, response) => {
+  // #swagger.tags=['Members']
+  // #swagger.summary=Show all members info
+  // #swagger.description=Shows all members info
   try {
     const result = await mongodb.getDb().db('ClubOrganization').collection('members').find();
     result.toArray().then((lists) => {
@@ -15,6 +17,9 @@ const getAll = async (request, response) => {
 };
 
 const getSingle = async (request, response) => {
+  // #swagger.tags=['Members']
+  // #swagger.summary=Get member info based off id
+  // #swagger.description=Show a members info based off id
   try {
     const memberID = new ObjectId(request.params.id);
     const result = await mongodb.getDb().db('ClubOrganization').collection('members').find({ _id: memberID });
@@ -26,7 +31,10 @@ const getSingle = async (request, response) => {
     response.status(500).json(err);
   }
 };
-const createMembers= async (request, response) => {
+const createMembers = async (request, response) => {
+  // #swagger.tags=['Members']
+  // #swagger.summary=Create a new member
+  // #swagger.description=Fill in new members info to create a new member
   try {
     const members = {
       firstName: request.body.firstName,
@@ -49,6 +57,9 @@ const createMembers= async (request, response) => {
 };
 
 const updateMember = async (req, res) => {
+  // #swagger.tags=['Members']
+  // #swagger.summary=Update member info based off id
+  // #swagger.description=Update member info based off id
   const memberID = request.params.id;
   const members = {
     firstName: request.body.firstName,
@@ -62,10 +73,13 @@ const updateMember = async (req, res) => {
   const membersCollection = getCollection();
       const result = await membersCollection.replaceOne({ _id:memberID }, members);
       console.log(result);
-  };
+ };
   
 
 const deleteMember = async (req, res) => {
+  // #swagger.tags=['Members']
+  // #swagger.summary=Delete member info based off id
+  // #swagger.description=Delete member info based off id
   const memberID = new ObjectId(request.params.id);
   const response = await mongodb.getDb().db('ClubOrganization').collection('members').deleteOne({ _id: memberID }, true);
   console.log(response);
