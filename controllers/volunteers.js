@@ -71,13 +71,39 @@ const updateVolunteer = async (req, res) => {
   // #swagger.tags=['Volunteers']
   // #swagger.summary=Update volunteer info
   // #swagger.description=Update volunteer info
+  const name = request.params.name;
+  const volunteers = {
+    event: request.body.event,
+    opportunity: request.body.opportunity,
+    name: request.body.name,
+  };
+  const response = await mongodb
+    .getDb()
+    .db('ClubOrganization')
+    .collection('users')
+    .replaceOne({ name: name }, volunteers);
+  console.log(response);
+  if (response.modifiedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || 'Some error occurred while updating the volunteer.');
+  }
 };
+
 
 // Delete Working
 const deleteVolunteer = async (req, res) => {
   // #swagger.tags=['Volunteers']
   // #swagger.summary=Delete volunteer info
   // #swagger.description=Delete volunteer info
+  const name = request.params.name;
+  const response = await mongodb.getDb().db('ClubOrganization').collection('members').deleteOne({ name: name }, true);
+  console.log(response);
+  if (response.deletedCount > 0) {
+    res.status(204).send();
+  } else {
+    res.status(500).json(response.error || 'Error occurred while deleting the user.');
+  }
 };
 
 module.exports = {

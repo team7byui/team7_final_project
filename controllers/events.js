@@ -61,12 +61,28 @@ const createEvent = async (request, response) => {
 };
 
 const updateEvent = async (req, res) => {
+  const eventName = req.params.eventName;
+  const events = {
+    title: request.body.title,
+    date: request.body.date,
+    time: request.body.time,
+    location: request.body.location,
+    details: request.body.details,
+    volunteersNeeded: request.body.volunteersNeeded
+  };
+  const eventsCollection = getCollection();
+      const result = await eventsCollection.replaceOne({ eventName:eventName }, events);
+      console.log(result);
+      
+}
 
-};
-
-// Delete Working
 const deleteEvent = async (req, res) => {
-
+  const eventName = req.params.eventName;
+  const eventsCollection = getCollection();
+      const result = await eventsCollection.deleteOne({ eventName: eventName });
+      console.log(`${eventName} was successfully deleted`);
+      res.setHeader('Content-Type', 'application/json');
+      res.status(200).json(result[0]);
 };
 
 module.exports = { getAll, getSingle, createEvent, updateEvent, deleteEvent };
