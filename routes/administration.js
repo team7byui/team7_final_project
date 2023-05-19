@@ -19,8 +19,8 @@ routes.post(
 
 routes.put(
   "/:administrationId",
-  personValidationRules(),
   idParamRequired("administrationId"),
+  personValidationRules(),
   reportValidationErrors,
   administrationController.updateAdministration
 );

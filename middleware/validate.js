@@ -8,6 +8,7 @@ const isValidObjectId = (id) =>
 const emailChain = () =>
   body("email")
     .trim()
+    .normalizeEmail()
     .isEmail()
     .withMessage("The email format is unrecognized.");
 
