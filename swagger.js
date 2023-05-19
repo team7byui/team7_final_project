@@ -5,8 +5,8 @@ const doc = {
     title: 'club organization',
     description: 'club organization'
   },
-  host: 'localhost:5012',
-  schemes: ['http']
+  host: 'team7project.onrender.com',
+  schemes: ['https']
 };
 
 const outputFile = './swagger.json';
