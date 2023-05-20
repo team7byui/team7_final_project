@@ -92,7 +92,7 @@ const updateVolunteer = async (req, res) => {
       const response = await mongodb
         .getDb()
         .db('ClubOrganization')
-        .collection('users')
+        .collection('volunteers')
         .replaceOne({ _id: name }, volunteers);
       console.log(response.modifiedCount + 'document(s) were updated');
       if (response.modifiedCount > 0) {

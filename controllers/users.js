@@ -101,11 +101,12 @@ const deleteUser = async (req, res) => {
     if (ObjectId.isValid(req.params.id)) {
       const username = new ObjectId(req.params.id);
       const response = await mongodb
-        .getDb().db('ClubOrganization')
-        .collection('members')
+        .getDb()
+        .db('ClubOrganization')
+        .collection('users')
         .deleteOne({ _id: username }, true);
       console.log(response.deletedCount + 'document(s) were deleted');
-      if (response.deletedCount > 0) {
+      if (response.acknowledged) {
         res.status(200).send(response.deletedCount + 'document(s) were deleted');
       } else {
         res.status(500).json(response.error || 'Error occurred while deleting the user.');

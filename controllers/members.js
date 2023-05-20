@@ -87,7 +87,7 @@ const updateMember = async (req, res) => {
   // #swagger.description=Update member info based off id
   try {
     if (ObjectId.isValid(req.params.id)) {
-      const memberID = req.params.id;
+      const memberID = new ObjectId(req.params.id);
       const members = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
