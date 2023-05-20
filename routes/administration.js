@@ -22,16 +22,16 @@ routes.post(
 );
 
 routes.put(
-  '/:administrationId',
-  idParamRequired('administrationId'),
+  '/:id',
+  idParamRequired('id'),
   personValidationRules(),
   reportValidationErrors(),
   administrationController.updateAdministration
 );
 
 routes.delete(
-  '/:administrationId',
-  idParamRequired('administrationId'),
+  '/:id',
+  idParamRequired('id'),
   reportValidationErrors(),
   administrationController.deleteAdministration
 );
