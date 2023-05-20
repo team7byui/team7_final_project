@@ -118,13 +118,14 @@
           "400": {
             "description": "Bad Request"
           },
+          "422": {
+            "description": "Unprocessable Entity"
+          },
           "500": {
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/administration/{administrationId}": {
+      },
       "put": {
         "tags": [
           "Administration"
@@ -133,7 +134,7 @@
         "description": "Changes an admin members info based off their id",
         "parameters": [
           {
-            "name": "administrationId",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -189,7 +190,7 @@
         "description": "Deletes an admin members info based off their id",
         "parameters": [
           {
-            "name": "administrationId",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -414,7 +415,7 @@
         }
       }
     },
-    "/members/{memberId}": {
+    "/members/{id}": {
       "get": {
         "tags": [
           "Members"
@@ -426,7 +427,7 @@
         ],
         "parameters": [
           {
-            "name": "memberId",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -452,7 +453,7 @@
         "description": "Update member info based off id",
         "parameters": [
           {
-            "name": "memberId",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -508,7 +509,7 @@
         "description": "Delete member info based off id",
         "parameters": [
           {
-            "name": "memberId",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -642,8 +643,8 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type":"object",
-              "properties":{
+              "type": "object",
+              "properties": {
                 "title": {
                   "example": "any"
                 },
