@@ -24,9 +24,26 @@
     },
     "/administration/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Administration"
+        ],
+        "summary": "Show all admins info",
+        "description": "Finds all admin members info",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
       },
       "post": {
         "tags": [
@@ -98,6 +115,9 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -110,7 +130,7 @@
           "Administration"
         ],
         "summary": "Update an admins info based off id",
-        "description": "Changes an admin members info based off their position",
+        "description": "Changes an admin members info based off their id",
         "parameters": [
           {
             "name": "administrationId",
@@ -139,7 +159,7 @@
                 "phoneNumber": {
                   "example": "any"
                 },
-                "birthday": {
+                "position": {
                   "example": "any"
                 }
               }
@@ -149,6 +169,9 @@
         "responses": {
           "204": {
             "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "422": {
             "description": "Unprocessable Entity"
@@ -163,7 +186,7 @@
           "Administration"
         ],
         "summary": "Delete an admins info based off id",
-        "description": "Deletes an admin members info based off their position",
+        "description": "Deletes an admin members info based off their id",
         "parameters": [
           {
             "name": "administrationId",
@@ -173,8 +196,11 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "422": {
             "description": "Unprocessable Entity"
@@ -207,24 +233,13 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "500": {
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/users/{username}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {}
       },
       "put": {
         "tags": [
@@ -234,15 +249,33 @@
         "description": "Update a users email and hashed password based off id",
         "parameters": [
           {
-            "name": "username",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "204": {
             "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
@@ -257,15 +290,18 @@
         "description": "Delete a users email and hashed password",
         "parameters": [
           {
-            "name": "username",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
@@ -307,34 +343,6 @@
         }
       }
     },
-    "/members/{id}": {
-      "get": {
-        "tags": [
-          "Members"
-        ],
-        "summary": "Get member info based off id",
-        "description": "Show a members info based off id",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/members/": {
       "get": {
         "tags": [
@@ -349,6 +357,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
@@ -425,6 +436,9 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -442,9 +456,49 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "example": "any"
+                },
+                "lastName": {
+                  "example": "any"
+                },
+                "address": {
+                  "example": "any"
+                },
+                "phoneNumber": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "birthday": {
+                  "example": "any"
+                },
+                "allFamilyMembers": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
-        "responses": {}
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
       },
       "delete": {
         "tags": [
@@ -461,8 +515,11 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
@@ -484,6 +541,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
@@ -540,8 +600,8 @@
         "tags": [
           "Events"
         ],
-        "summary": "Show event info based off title",
-        "description": "Displays event info based off title",
+        "summary": "Show event info based off id",
+        "description": "Displays event info based off id",
         "produces": [
           "application/json"
         ],
@@ -557,33 +617,76 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "500": {
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/events/{eventName}": {
+      },
       "put": {
-        "description": "",
+        "tags": [
+          "Events"
+        ],
+        "summary": "Update an event",
+        "description": "Fill in new event info to update event",
         "parameters": [
           {
-            "name": "eventName",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type":"object",
+              "properties":{
+                "title": {
+                  "example": "any"
+                },
+                "date": {
+                  "example": "any"
+                },
+                "time": {
+                  "example": "any"
+                },
+                "location": {
+                  "example": "any"
+                },
+                "details": {
+                  "example": "any"
+                },
+                "volunteersNeeded": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
-        "responses": {}
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
       },
       "delete": {
-        "description": "",
-        "produces": [
-          "application/json"
+        "tags": [
+          "Events"
         ],
+        "summary": "Delete an event",
+        "description": "Delete event info using event id",
         "parameters": [
           {
-            "name": "eventName",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -592,6 +695,12 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -610,6 +719,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
@@ -674,30 +786,52 @@
           "200": {
             "description": "OK"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "500": {
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/volunteers/{username}": {
+      },
       "put": {
         "tags": [
           "Volunteers"
         ],
-        "summary": "Update volunteer info",
-        "description": "Update volunteer info",
+        "summary": "Update volunteer info based off id",
+        "description": "Update volunteer info based off id",
         "parameters": [
           {
-            "name": "username",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "event": {
+                  "example": "any"
+                },
+                "opportunity": {
+                  "example": "any"
+                },
+                "name": {
+                  "example": "any"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "204": {
             "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
@@ -712,15 +846,18 @@
         "description": "Delete volunteer info",
         "parameters": [
           {
-            "name": "username",
+            "name": "id",
             "in": "path",
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           },
           "500": {
             "description": "Internal Server Error"
