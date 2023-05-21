@@ -1,0 +1,8 @@
+// Each route has its own .REST file.
+
+//- admin.rest
+//- event.rest
+//- member.rest
+//- user.rest
+//- volunteer.rest
+

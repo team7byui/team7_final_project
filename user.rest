@@ -1,0 +1,50 @@
+// NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
+
+@userId = 6466d734172e9435fb18f97d
+
+### Get a single object
+# @name one
+GET {{host}}/users/{{userId}}
+
+@username = {{one.response.body.username}}
+@password = awesomeSauce
+
+### Try add duplicate user -- SHOULD FAIL because username already exists.
+POST {{host}}/users/
+Content-Type: application/json
+
+{
+    "username": "{{username}}",
+    "password": "{{password}}"
+}
+
+### Add a new record
+# @name new
+POST {{host}}/users/
+Content-Type: application/json
+
+{
+    "username": "~~testing~~",
+    "password": "{{password}}"
+}
+
+#### Variables
+@newId = {{new.response.body.insertedId}}
+
+### Verify
+GET {{host}}/users/{{newId}}
+
+### Delete
+DELETE {{host}}/users/{{newId}}
+
+### Bad request to test validation
+PUT {{host}}/users/not-an-id
+Content-Type: application/json
+
+{
+    "firstName": "",
+    "lastName": "",
+    "phoneNumber": "(12) 34-5678",
+    "email": "notAnEmail@badDomain"
+}
+
