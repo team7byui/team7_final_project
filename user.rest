@@ -1,0 +1,82 @@
+// NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
+
+@userId = 6466d734172e9435fb18f97d
+@weakPassword = awesomeSauce
+@strongerPassword = awesomeSauce123!
+
+### Get a single object
+# @name one
+GET {{host}}/users/{{userId}}
+
+@username = {{one.response.body.username}}
+
+### This should return "true"
+GET {{host}}/users/exists/{{username}}
+
+### Add user -- SHOULD FAIL with complexity violation.
+POST {{host}}/users/
+Content-Type: application/json
+
+{
+    "username": "{{username}}",
+    "password": "{{weakPassword}}"
+}
+
+### Add user -- SHOULD FAIL with duplicate user.
+POST {{host}}/users/
+Content-Type: application/json
+
+{
+    "username": "{{username}}",
+    "password": "{{strongerPassword}}"
+}
+
+### Update user by id
+PUT {{host}}/users/{{userId}}
+Content-Type: application/json
+
+{
+    "username": "{{username}}-123",
+    "password": "{{strongerPassword}}"
+}
+
+### Verify
+GET {{host}}/users/{{userId}}
+
+### Return to original username
+PUT {{host}}/users/{{userId}}
+Content-Type: application/json
+
+{
+    "username": "{{username}}",
+    "password": "{{strongerPassword}}"
+}
+
+### Add a new record
+# @name new
+POST {{host}}/users/
+Content-Type: application/json
+
+{
+    "username": "{{username}}-123",
+    "password": "{{strongerPassword}}"
+}
+
+#### Variables
+@newId = {{new.response.body.insertedId}}
+
+### Verify
+GET {{host}}/users/{{newId}}
+
+### Delete
+DELETE {{host}}/users/{{newId}}
+
+### BAD request to test validation
+PUT {{host}}/users/bad-{{newId}}
+Content-Type: application/json
+
+{
+    "username": "",
+    "password": "a"
+}
+
