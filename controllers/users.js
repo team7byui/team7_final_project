@@ -1,3 +1,4 @@
+const { MongoServerError } = require('mongodb');
 const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 const bcrypt = require('bcrypt');
@@ -35,21 +36,19 @@ const createUsers = async (req, res) => {
     const password = req.body.password;
 
     // Hash password
-    const plainPassword = password;
-    const hashedPassword = await bcrypt.hash(plainPassword, 10);
-    const result = mongodb
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const result = await mongodb
       .getDb()
       .db('ClubOrganization')
       .collection('users')
-      .insertOne({ username: username, password: hashedPassword });
-    // Error handling
-    if (result.acknowledged) {
-      res.status(201).json(result);
-    } else {
-      res.status(500).json(result.error || 'Error occurred while creating user.');
-    }
+      .insertOne({ username, password: hashedPassword });
+    res.status(201).json(result);
   } catch (err) {
-    res.status(500).json(err);
+    if (err instanceof MongoServerError && err.code === 11000) {
+      res.status(400).json('Username already exists.');
+    } else {
+      res.status(500).json(err);
+    }
   }
 };
 
@@ -58,26 +57,25 @@ const updateUser = async (req, res) => {
   // #swagger.summary=Update a users info based off id
   // #swagger.description=Update a users email and hashed password based off id
   try {
-    const username = new ObjectId(req.params.id);
-    const newUsername = req.body.username;
+    const userId = new ObjectId(req.params.id);
+    const username = req.body.username;
     const password = req.body.password;
 
     // Hash password
-    const plainPassword = password;
-    const hashedPassword = bcrypt.hash(plainPassword, 10);
-    const result = mongodb
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const result = await mongodb
       .getDb()
       .db('ClubOrganization')
       .collection('users')
-      .replaceOne({ _id: username }, { username: newUsername, password: hashedPassword });
+      .replaceOne({ _id: userId }, { username, password: hashedPassword });
     console.log(result);
-    if ((await result).acknowledged) {
-      res.status(204).send(result);
-    } else {
-      res.status(500).json(result.error || 'Some error occurred while updating the user.');
-    }
+    res.status(204).send(result);
   } catch (err) {
-    res.status(500).json(err);
+    if (err instanceof MongoServerError && err.code === 11000) {
+      res.status(400).json('Username already exists.');
+    } else {
+      res.status(500).json(err);
+    }
   }
 };
 
@@ -86,15 +84,15 @@ const deleteUser = async (req, res) => {
   // #swagger.summary=Delete a user
   // #swagger.description=Delete a users email and hashed password
   try {
-    const username = new ObjectId(req.params.id);
+    const userId = new ObjectId(req.params.id);
     const result = await mongodb
       .getDb()
       .db('ClubOrganization')
       .collection('users')
-      .deleteOne({ _id: username }, true);
-    console.log(result.deletedCount + 'document(s) were deleted');
+      .deleteOne({ _id: userId }, true);
+    console.log(result);
     if (result.acknowledged) {
-      res.status(200).send(result.deletedCount + 'document(s) were deleted');
+      res.status(200).send(`${result.deletedCount} document(s) were deleted`);
     } else {
       res.status(500).json(result.error || 'Error occurred while deleting the user.');
     }
@@ -103,4 +101,23 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getSingle, createUsers, updateUser, deleteUser };
+const checkUserExists = async (req, res) => {
+  // #swagger.tags=['Users']
+  // #swagger.summary=Verify that username exists in db
+  // #swagger.description=Returns true if username exists.
+  try {
+    const username = req.params.username;
+    const result = await mongodb
+      .getDb()
+      .db('ClubOrganization')
+      .collection('users')
+      .find({ username })
+      .toArray();
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(result.length === 1);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+module.exports = { checkUserExists, getSingle, createUsers, updateUser, deleteUser };

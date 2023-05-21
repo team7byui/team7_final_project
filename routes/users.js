@@ -27,6 +27,7 @@ routes.delete('/:id',
   reportValidationErrors(),
   usersController.deleteUser);
 
-routes.get('/:username')
+routes.get('/exists/:username',
+  usersController.checkUserExists);
 
 module.exports = routes;
