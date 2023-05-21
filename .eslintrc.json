@@ -1,4 +1,7 @@
 {
+    "plugins": [
+        "jsdoc"
+    ],
     "env": {
         "commonjs": true,
         "es2021": true,
@@ -6,16 +9,37 @@
         "mongo": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "plugin:jsdoc/recommended"
+    ],
     "parserOptions": {
         "ecmaVersion": "latest"
     },
     "rules": {
-        "indent": ["error", 2],
-        "quotes": ["warn", "single"],
-        "semi": ["error", "always"],
+        "indent": [
+            "error",
+            2
+        ],
+        "quotes": [
+            "warn",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
         "no-trailing-spaces": "error",
-        "max-len": ["error", 100],
-        "brace-style": ["error", "1tbs", { "allowSingleLine": true }]
+        "max-len": [
+            "error",
+            100
+        ],
+        "brace-style": [
+            "error",
+            "1tbs",
+            {
+                "allowSingleLine": true
+            }
+        ]
     }
 }
