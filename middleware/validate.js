@@ -43,7 +43,8 @@ const requiredChain = (field) =>
 module.exports = {
   /**
    * Ensures route parameter is a valid 'ObjectId'
-   * @param {string} field
+   * @param {string} field The object property to validate
+   * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
    */
   idParamRequired: (field) => {
     return [param(field).custom(isValidObjectId)];
@@ -51,6 +52,7 @@ module.exports = {
 
   /**
    * Applies rules for username and password.
+   * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
    */
   userValidationRules: () => {
     return [
@@ -63,6 +65,7 @@ module.exports = {
 
   /**
    * Applies rules for firstName, lastName, phoneNumber, and email.
+   * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
    */
   personValidationRules: () => {
     return [
@@ -76,6 +79,7 @@ module.exports = {
 
   /**
    * Applies rules for title, date, time, and location.
+   * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
    */
   eventValidationRules: () => {
     return [
@@ -87,11 +91,18 @@ module.exports = {
   },
 
   /**
-   * Default handler for validation errors.
-   * @param {import('express').Request} req
-   * @param {import('express').Response} res
-   * @param {import('express').NextFunction} next
-   * @returns Handler function for route
+   * @typedef {import('express').Request} Request
+   * @typedef {import('express').Response} Response
+   * @typedef {import('express').NextFunction} NextFunction
+   * @callback RouteHandler
+   * @param {Request} req The request
+   * @param {Response} res The response
+   * @param {NextFunction} next The next handler
+   */
+
+  /**
+   * Returns route handler for validation errors.
+   * @returns {RouteHandler} Intercept validation errors
    */
   reportValidationErrors: () => (req, res, next) => {
     const errors = validationResult(req);

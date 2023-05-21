@@ -22,7 +22,7 @@ const initDb = (callback) => {
 
 /**
  * Get the current MongoDB client connection.
- * @returns {MongoClient}
+ * @returns {MongoClient} The MongoDB client connection.
  * @throws If initDb not called first.
  */
 const getDb = () => {
