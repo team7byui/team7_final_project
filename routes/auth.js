@@ -12,8 +12,11 @@ router.get('/google/callback', passport.authenticate('google', { failureRedirect
   res.redirect('/api-docs/');
 });
 
-// @desc   Auth with Facebook
-// @route  GET /auth/facebook
-router.get('/facebook', passport.authenticate('facebook', { scope: ['profile'] }));
+// @desc Logout user
+// @route /auth/logout
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
 
 module.exports = router;
