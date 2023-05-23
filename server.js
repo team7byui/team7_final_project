@@ -1,11 +1,23 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 
 const port = process.env.PORT || 5012;
 
 const mongodb = require('./db/connect');
+const passport = require('passport');
+
+require('./config/passport');
 
 const app = express();
+app.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(bodyParser.json());
 
@@ -15,6 +27,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/', require('./routes/index.js'));
+
+mongodb.connectMongooseDB();
 
 mongodb.initDb((err) => {
   if (err) {

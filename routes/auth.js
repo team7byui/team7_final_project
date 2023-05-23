@@ -1,32 +1,19 @@
 const express = require('express');
 const passport = require('passport');
 const router = express.Router();
-const app = express();
 
-router.get('/auth/google', (req, res) => {
-  passport.authenticate('google', (err, user, info) => {
-    if (err) {
-      res.send(err);
-    } else if (user) {
-      res.redirect('https://team7-final-project-jsuddsjr.onrender.com/api-docs/');
-    } else {
-      res.redirect('https://team7-final-project-jsuddsjr.onrender.com/');
-    }
-  });
+// @desc   Auth with Google
+// @route  GET /auth/google
+router.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+
+// @desc Google auth callback
+// @route GET /auth/google/callback
+router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
+  res.redirect('/api-docs/');
 });
 
-router.get('/auth/facebook', (req, res) => {
-  passport.authenticate('facebook', (err, user, info) => {
-    if (err) {
-      res.send(err);
-    } else if (user) {
-      res.redirect('https://team7-final-project-jsuddsjr.onrender.com/api-docs/');
-    } else {
-      res.redirect('https://team7-final-project-jsuddsjr.onrender.com/');
-    }
-  });
-});
+// @desc   Auth with Facebook
+// @route  GET /auth/facebook
+router.get('/facebook', passport.authenticate('facebook', { scope: ['profile'] }));
 
-app.use('/auth', router);
-
-exports.router = router;
+module.exports = router;
