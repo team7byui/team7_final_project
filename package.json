@@ -10,6 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
+    "serve": "cross-env DEBUG=express:* nodemon server.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
@@ -17,14 +18,15 @@
   },
   "author": "",
   "contributors": [
-    "Kelsey Berta <kelseyberta@github.com>",
-    "Tianna Despain <tiannadespain@github.com>",
-    "Shauntal Byrne <shauniebyrne@github.com>",
     "John Sudds <jsuddsjr@github.com>",
-    "Sam Gordon <samgo23@github.com>"
+    "Kelsey Berta <kelseyberta@github.com>",
+    "Sam Gordon <samgo23@github.com>",
+    "Shauntal Byrne <shauniebyrne@github.com>",
+    "Tianna Despain <tiannadespain@github.com>"
   ],
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
@@ -33,13 +35,18 @@
     "mongoose": "^7.1.2",
     "passport": "^0.6.0",
     "passport-google-oauth20": "^2.0.0",
+    "express-validator": "^7.0.1",
+    "http-errors": "^2.0.0",
+    "joi-password-complexity": "^5.1.0",
     "swagger-ui-express": "^4.6.3"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsdoc": "^44.2.4",
     "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",

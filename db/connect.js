@@ -10,16 +10,22 @@ const initDb = (callback) => {
     console.log('Db is already initialized!');
     return callback(null, _db);
   }
-  MongoClient.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@team7.cvagdmh.mongodb.net/ClubOrganization`)
+  // eslint-disable-next-line max-len
+  MongoClient.connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@team7.cvagdmh.mongodb.net`)
     .then((client) => {
       _db = client;
       callback(null, _db);
     })
     .catch((err) => {
       callback(err);
-    })
-}
+    });
+};
 
+/**
+ * Get the current MongoDB client connection.
+ * @returns {MongoClient} The MongoDB client connection.
+ * @throws If initDb not called first.
+ */
 const getDb = () => {
   if (!_db) {
     throw Error('Db not initialized.');

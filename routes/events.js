@@ -1,9 +1,33 @@
 const routes = require('express').Router();
-
 const eventsController = require('../controllers/events');
+const {
+  idParamRequired,
+  reportValidationErrors,
+  eventValidationRules,
+  userValidationRules,
+} = require('../middleware/validate');
 
-routes.put('/:eventName', eventsController.updateEvent);
-routes.delete('/:eventName', eventsController.deleteEvent);
+routes.get('/', eventsController.getAll);
 
+routes.get('/:id',
+  idParamRequired('id'),
+  reportValidationErrors(),
+  eventsController.getSingle);
 
-module.exports = routes; 
+routes.post('/',
+  eventValidationRules(),
+  reportValidationErrors(),
+  eventsController.createEvent);
+
+routes.put('/:id',
+  idParamRequired('id'),
+  userValidationRules(),
+  reportValidationErrors(),
+  eventsController.updateEvent);
+
+routes.delete('/:id',
+  idParamRequired('id'),
+  reportValidationErrors(),
+  eventsController.deleteEvent);
+
+module.exports = routes;

@@ -40,47 +40,52 @@ We could implement GraphQL in order to go above and beyond and receive extra cre
 
 For this section, you’ll plan out what API endpoints you’ll need for your project.
 
+### models
+
+* [x] administration
+* [x] members
+* [x] users
+* [x] volunteers
+* [x] events
+
 ### administration
 
-* [ ] POST /administration
-* [ ] PUT /administration/{administrationID}
-* [ ] GET /administration/findByPosition
-* [ ] POST /administration
-* [ ] DELETE /administration/{administrationID}
+* [x] POST /administration
+* [x] PUT /administration/{administrationID}
+* [x] GET /administration/{administrationID}
+* [x] DELETE /administration/{administrationID}
 
 ### members
 
-* [ ] GET /members
-* [ ] PUT /members/{memberID}
-* [ ] POST /members
-* [ ] GET /members/{memberID}
-* [ ] DELETE /members/{memberID}
+* [x] GET /members
+* [x] PUT /members/{memberID}
+* [x] POST /members
+* [x] GET /members/{memberID}
+* [x] DELETE /members/{memberID}
 
 ### user
 
-* [ ] POST /user
-* [ ] POST /user/createWithArray
-* [ ] POST /user/createWithList
+* [x] POST /user
 * [ ] GET /user/login
 * [ ] GET /user/logout
-* [ ] GET /user/{username}
-* [ ] PUT /user/{username}
-* [ ] DELETE /user/{username}
+* [x] GET /user/{id}
+* [x] PUT /user/{id}
+* [x] DELETE /user/{id}
 
 ### volunteers
 
-* [ ] POST /volunteers
-* [ ] PUT /volunteers/{username}
-* [ ] GET /volunteers
-* [ ] DELETE/volunteers
+* [x] POST /volunteers
+* [x] PUT /volunteers/{id}
+* [x] GET /volunteers
+* [x] DELETE/volunteers/{id}
 
 ### events - ADMIN LOCKED
 
-* [ ] GET/events
-* [ ] GET/events/{eventName}
-* [ ] POST/events
-* [ ] PUT/events/{eventName}
-* [ ] DELETE/members
+* [x] GET/events
+* [x] GET/events/{id}
+* [x] POST/events
+* [x] PUT/events/{id}
+* [x] DELETE/events/{id}
 
 ## Project Scheduling and Delegation
 
@@ -95,20 +100,20 @@ Plan out what tasks will get completed with each lesson remaining in the semeste
 * [x] Create Git Repo
 * [x] Set up MongoDB
 * [x] Set up Nodejs project code
-* [ ] API DOCUMENTATION is complete and available at route ‘/api-docs’
-* [ ] GET, POST Requests
-* [ ] Push to Render
+* [x] API DOCUMENTATION is complete and available at route ‘/api-docs’
+* [x] GET, POST Requests
+* [x] Push to Render
 
 ### Lesson 11 Tasks - Tuesday
 
-* [ ] PUT, DELETE Requests
+* [x] PUT, DELETE Requests
 
 ### Lesson 12 Tasks - Friday
 
 * [ ] OAuth
 * [ ] maybe GraphQL
 * [ ] Validation
-* [ ] Error Handling
+* [x] Error Handling
 * [ ] Unit Testing
 
 ### Lesson 13 Tasks - Tuesday
@@ -131,7 +136,7 @@ Plan out what tasks will get completed with each lesson remaining in the semeste
 | OAuth | Sam
 | Validation | John
 | Error Handling | Shauntal
-| Unit Testing | as a team Lesson 12 (Friday)
+| Unit Testing | Sam
 | Video presentation, all routes functioning, MongoDB data being modified, and API documentation | as a team Lesson 13 (Tuesday)
 
 ## Potential Risks and Risk Mitigation Techniques

@@ -1,0 +1,82 @@
+// NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
+
+###
+# @name admin
+GET {{host}}/administration
+
+@adminId = {{admin.response.body.$[0]._id}}
+
+### Get a single object
+# @name one
+GET {{host}}/administration/{{adminId}}
+
+@firstName = {{one.response.body.firstName}}
+@lastName = {{one.response.body.lastName}}
+@address = {{one.response.body.address}}
+@phoneNumber = {{one.response.body.phoneNumber}}
+@email = {{one.response.body.email}}
+@position = {{one.response.body.position}}
+
+### Update record
+PUT {{host}}/administration/{{adminId}}
+Content-Type: application/json
+
+{
+    "firstName": "~~Testing~~",
+    "lastName": "~~Testing~~",
+    "address": "~~Testing~~",
+    "phoneNumber": "(000) 000-0000",
+    "email": "the.boss@example.com",
+    "position": "~~Testing~~"
+}
+
+### Verify that record has changed
+GET {{host}}/administration/{{adminId}}
+
+### Reset record to original values
+PUT {{host}}/administration/{{adminId}}
+Content-Type: application/json
+
+{
+    "firstName": "{{firstName}}",
+    "lastName": "{{lastName}}",
+    "address": "{{address}}",
+    "phoneNumber": "{{phoneNumber}}",
+    "email": "{{email}}",
+    "position": "{{position}}"
+}
+
+### Add a new record
+# @name new
+POST {{host}}/administration/
+Content-Type: application/json
+
+{
+    "firstName": "~~Testing~~",
+    "lastName": "~~Testing~~",
+    "address": "~~Testing~~",
+    "phoneNumber": "(000) 000-0000",
+    "email": "the.boss@example.com",
+    "position": "~~Testing~~"
+}
+
+#### Variables
+@newId = {{new.response.body.insertedId}}
+
+### Verify
+GET {{host}}/administration/{{newId}}
+
+### Delete
+DELETE {{host}}/administration/{{newId}}
+
+### Bad request to test validation
+PUT {{host}}/administration/not-an-id
+Content-Type: application/json
+
+{
+    "firstName": "",
+    "lastName": "",
+    "phoneNumber": "(12) 34-5678",
+    "email": "notAnEmail@badDomain"
+}
+
