@@ -1,3 +1,8 @@
+/**
+ * Interceptor for request/response for Event objects.
+ * @author John Sudds
+ */
+
 const dateTimeParse = require('../util/dateTimeParse.js');
 
 const convertDateTimeToIso = (obj) => {

@@ -72,6 +72,9 @@ Content-Type: application/json
 ####
 @newEventIsoId = {{newEventIso.response.body.insertedId}}
 
-###
+### Verify
 GET {{host}}/events/{{newEventIsoId}}
+
+### Clean up
+DELETE {{host}}/events/{{newEventIsoId}}
 
