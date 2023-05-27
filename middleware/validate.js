@@ -23,7 +23,7 @@ const dateChain = (field) =>
     .trim()
     .isDate()
     .withMessage(
-      (value, meta) => `${meta.path}: '${value}' doesn't appear to be a date.`
+      (value, meta) => `${meta.path}: '${value}' doesn't appear to be a date in YYYY/MM/DD format.`
     );
 
 const timeChain = (field) =>
@@ -31,7 +31,7 @@ const timeChain = (field) =>
     .trim()
     .isTime()
     .withMessage(
-      (value, meta) => `${meta.path}: '${value}' doesn't appear to be a time.`
+      (value, meta) => `${meta.path}: '${value}' doesn't appear to be a time in HH:MM format.`
     );
 
 const requiredChain = (field) =>
@@ -84,8 +84,8 @@ module.exports = {
   eventValidationRules: () => {
     return [
       requiredChain('title'),
-      dateChain('date'),
-      timeChain('time'),
+      //dateChain('date'),
+      //timeChain('time'),
       requiredChain('location'),
     ];
   },

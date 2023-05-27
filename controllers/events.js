@@ -59,8 +59,8 @@ const createEvent = async (request, response) => {
   try {
     const events = {
       title: request.body.title,
-      date: request.body.date,
-      time: request.body.time,
+      startDate: request.body.startDate,
+      duration: request.body.duration,
       location: request.body.location,
       details: request.body.details,
       volunteersNeeded: request.body.volunteersNeeded
@@ -86,8 +86,8 @@ const updateEvent = async (req, res) => {
       const eventName = new ObjectId(req.params.id);
       const events = {
         title: req.body.title,
-        date: req.body.date,
-        time: req.body.time,
+        startDate: req.body.startDate,
+        duration: req.body.duration,
         location: req.body.location,
         details: req.body.details,
         volunteersNeeded: req.body.volunteersNeeded

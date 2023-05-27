@@ -1,0 +1,77 @@
+// NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
+
+
+###
+# @name allEvents
+GET {{host}}/events
+
+@eventId = {{allEvents.response.body.$[0]._id}}
+
+###
+# @name oneEvent
+GET {{host}}/events/{{eventId}}
+
+@title = {{oneEvent.response.body.title}}
+@date = {{oneEvent.response.body.date}}
+@time = {{oneEvent.response.body.time}}
+@startDate = {{oneEvent.response.body.startDate}}
+@duration = {{oneEvent.response.body.duration}}
+@location = {{oneEvent.response.body.location}}
+@details = {{oneEvent.response.body.details}}
+@volunteersNeeded = {{oneEvent.response.body.volunteersNeeded}}
+
+###
+PUT {{host}}/events/{{eventId}}
+Content-Type: application/json
+
+{
+  "title": "{{title}}",
+  "date": "{{date}}",
+  "time": "{{time}}",
+  "location": "{{location}}",
+  "details": "{{details}}",
+  "volunteersNeeded": "{{volunteersNeeded}}"
+}
+
+### New event
+# @name newEvent
+POST {{host}}/events
+Content-Type: application/json
+
+{
+  "title": "{{title}}",
+  "date": "{{date}}",
+  "time": "{{time}}",
+  "location": "{{location}}",
+  "details": "{{details}}",
+  "volunteersNeeded": "{{volunteersNeeded}}"
+}
+
+####
+@newEventId = {{newEvent.response.body.insertedId}}
+
+### Verify
+GET {{host}}/events/{{newEventId}}
+
+### Clean it up
+DELETE {{host}}/events/{{newEventId}}
+
+### Create a new event by specifying an ISO date
+# @name newEventIso
+POST {{host}}/events
+Content-Type: application/json
+
+{
+  "title": "{{title}}",
+  "location": "{{location}}",
+  "details": "{{details}}",
+  "volunteersNeeded": "{{volunteersNeeded}}",
+  "startDate": "{{startDate}}"
+}
+
+####
+@newEventIsoId = {{newEventIso.response.body.insertedId}}
+
+###
+GET {{host}}/events/{{newEventIsoId}}
+

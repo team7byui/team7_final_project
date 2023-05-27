@@ -1,11 +1,16 @@
 const routes = require('express').Router();
 const eventsController = require('../controllers/events');
+const intercept = require('../middleware/intercept.js');
 const {
   idParamRequired,
   reportValidationErrors,
   eventValidationRules,
   userValidationRules,
 } = require('../middleware/validate');
+
+// Custom middleware to interpret 'date' and 'time' fields.
+routes.use(intercept.dateRequest);
+routes.use(intercept.dateResponse);
 
 routes.get('/', eventsController.getAll);
 
