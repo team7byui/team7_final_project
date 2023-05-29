@@ -32,7 +32,7 @@
         "no-trailing-spaces": "error",
         "max-len": [
             "error",
-            100
+            120
         ],
         "brace-style": [
             "error",

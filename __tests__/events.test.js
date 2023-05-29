@@ -1,11 +1,12 @@
 const eventsController = require('../controllers/events');
 const { createControllerTests, getAllTest} = require('./test');
-const { MongoClient } = require('mongodb');
+
+eventsController.toString = () => 'EventsController';
 
 // Events Controller Tests
 describe('Events Controller', () => {
   createControllerTests(eventsController.getAll);
-  getAllTest(eventsController, eventsController.getAll)
+  getAllTest(eventsController, eventsController.getAll);
   createControllerTests(eventsController.getSingle);
   createControllerTests(eventsController.createEvent);
   createControllerTests(eventsController.updateEvent);
