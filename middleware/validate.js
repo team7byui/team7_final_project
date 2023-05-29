@@ -1,4 +1,4 @@
-const { body, validationResult, param } = require('express-validator');
+const { body, validationResult, param, oneOf } = require('express-validator');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 const isValidObjectId = (id) =>
@@ -53,6 +53,28 @@ module.exports = {
   },
 
   /**
+   * Prevent submitting duplicate email.
+   * @param {import('mongoose').Model} model The model to query
+   * @param {string} [email] Name of email field in body, optional
+   * @param {string} [id] Name of the id parameter, optional
+   * @returns {import('express-validator').ValidationChain} A validation rule
+   */
+  ensureUniqueEmail: (model, email='email', id='id') =>
+    body(email).custom(async (value, meta) => {
+      const myId = isValidObjectId(meta.req.params[id])
+        ? meta.req.params[id]
+        : undefined;
+      const query = {
+        '_id': {$ne: myId},
+        [email]: value
+      };
+      const result = await model.findOne(query);
+      if (result) {
+        throw new Error('E100: Specified email already in use.');
+      }
+    }),
+
+  /**
    * Applies rules for username and password.
    * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
    */
@@ -92,10 +114,23 @@ module.exports = {
   eventValidationRules: () => {
     return [
       requiredBodyChain('title'),
-      dateChain('date'),
-      body('startDate').isISO8601(),
-      body('endDate').isISO8601().optional(),
       requiredBodyChain('location'),
+      oneOf([
+        [
+          body('startDate').notEmpty().isISO8601(),
+          body('endDate').notEmpty().isISO8601()
+        ],
+        [
+          body('startDate').notEmpty().isISO8601(),
+          body('duration').notEmpty().matches(/^PT\d+H(\d{2}M)?/).withMessage((value, meta) =>
+            `${meta.path}: '${value}' doesn't match format PTnH or PTnHnM`
+          )
+        ],
+        [
+          dateChain('date'),
+          body('time').notEmpty()
+        ]
+      ]),
     ];
   },
 

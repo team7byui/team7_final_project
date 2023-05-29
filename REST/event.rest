@@ -5,7 +5,7 @@
 # @name allEvents
 GET {{host}}/events
 
-@eventId = {{allEvents.response.body.$[6]._id}}
+@eventId = {{allEvents.response.body.$[7]._id}}
 
 ###
 # @name oneEvent
@@ -34,7 +34,11 @@ Content-Type: application/json
   "volunteersNeeded": "{{volunteersNeeded}}"
 }
 
+### Verify
+GET {{host}}/events/{{eventId}}
+
 ### New event
+# NOTE: startDate, endDate, and duration are calculated from friendly strings.
 # @name newEvent
 POST {{host}}/events
 Content-Type: application/json

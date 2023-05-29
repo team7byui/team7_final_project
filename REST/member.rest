@@ -18,7 +18,8 @@ GET {{host}}/members/{{memberId}}
 @birthday = {{oneMember.response.body.birthday}}
 @allFamilyMembers = {{oneMember.response.body.allFamilyMembers}}
 
-###
+### Update existing record.
+# NOTE: You can use existing email address because it's the same record.
 PUT {{host}}/members/{{memberId}}
 Content-Type: application/json
 
@@ -32,8 +33,7 @@ Content-Type: application/json
   "allFamilyMembers": "{{allFamilyMembers}}"
 }
 
-###
-# @name newMember
+### Create a new member with same field, SHOULD FAIL with email in use.
 POST {{host}}/members
 Content-Type: application/json
 
@@ -43,6 +43,21 @@ Content-Type: application/json
   "address": "{{address}}",
   "phoneNumber": "{{phoneNumber}}",
   "email": "{{email}}",
+  "birthday": "{{birthday}}",
+  "allFamilyMembers": "{{allFamilyMembers}}"
+}
+
+### Create a new member with new email.
+# @name newMember
+POST {{host}}/members
+Content-Type: application/json
+
+{
+  "firstName": "{{firstName}}",
+  "lastName": "{{lastName}}",
+  "address": "{{address}}",
+  "phoneNumber": "{{phoneNumber}}",
+  "email": "{{$guid}}-{{email}}",
   "birthday": "{{birthday}}",
   "allFamilyMembers": "{{allFamilyMembers}}"
 }
@@ -64,8 +79,8 @@ Content-Type: application/json
   "firstName": "",
   "lastName": "",
   "address": "",
-  "phoneNumber": "(12) 345-7878",
-  "email": "notAnEmail@badDomain",
+  "phoneNumber": "+1 (123) 456-7890",
+  "email": "{{email}}",
   "birthday": "13-35-9999",
   "allFamilyMembers": ""
 }
