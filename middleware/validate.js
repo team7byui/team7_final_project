@@ -1,5 +1,4 @@
 const { body, validationResult, param } = require('express-validator');
-const { passwordPass } = require('../util/passwordComplexityCheck');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 const isValidObjectId = (id) =>
@@ -21,23 +20,26 @@ const phoneChain = () =>
 const dateChain = (field) =>
   body(field)
     .trim()
-    .isDate()
-    .withMessage(
-      (value, meta) => `${meta.path}: '${value}' doesn't appear to be a date in YYYY/MM/DD format.`
-    );
+    .custom((value, meta) => {
+      var test = new Date(value);
+      if (isNaN(test)) {
+        throw new Error(`${meta.path}: '${value}' couldn't be parsed as a date.`);
+      }
+      return true;
+    });
 
-const timeChain = (field) =>
+// const timeChain = (field) =>
+//   body(field)
+//     .trim()
+//     .isTime()
+//     .withMessage(
+//       (value, meta) => `${meta.path}: '${value}' doesn't appear to be a time in HH:MM format.`
+//     );
+
+const requiredBodyChain = (field) =>
   body(field)
     .trim()
-    .isTime()
-    .withMessage(
-      (value, meta) => `${meta.path}: '${value}' doesn't appear to be a time in HH:MM format.`
-    );
-
-const requiredChain = (field) =>
-  body(field)
-    .trim()
-    .exists({ values: 'falsy' })
+    .notEmpty()
     .withMessage((value, meta) => `${meta.path} is required.`);
 
 module.exports = {
@@ -57,9 +59,15 @@ module.exports = {
   userValidationRules: () => {
     return [
       // username must be an email
-      requiredChain('username'),
+      requiredBodyChain('username'),
       // validate against complexity rules
-      body('password').custom(passwordPass),
+      body('password')
+        .isLength({min: 8, max:26})
+        .withMessage('Password must be at least 8 characters, and no more than 26 characters long.')
+        .isStrongPassword()
+        .withMessage(
+          'Password must contain at 1 lowercase, 1 uppercase, 1 number, and 1 symbol character.'
+        ),
     ];
   },
 
@@ -69,8 +77,8 @@ module.exports = {
    */
   personValidationRules: () => {
     return [
-      requiredChain('firstName'),
-      requiredChain('lastName'),
+      requiredBodyChain('firstName'),
+      requiredBodyChain('lastName'),
       phoneChain(),
       emailChain(),
       dateChain('birthday').optional()
@@ -83,10 +91,11 @@ module.exports = {
    */
   eventValidationRules: () => {
     return [
-      requiredChain('title'),
-      //dateChain('date'),
-      //timeChain('time'),
-      requiredChain('location'),
+      requiredBodyChain('title'),
+      dateChain('date'),
+      body('startDate').isISO8601(),
+      body('endDate').isISO8601().optional(),
+      requiredBodyChain('location'),
     ];
   },
 

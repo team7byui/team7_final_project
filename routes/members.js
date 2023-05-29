@@ -20,8 +20,8 @@ routes.post('/',
 
 routes.put('/:id',
   idParamRequired('id'),
-  reportValidationErrors(),
   personValidationRules(),
+  reportValidationErrors(),
   membersController.updateMember);
 
 routes.delete('/:id',

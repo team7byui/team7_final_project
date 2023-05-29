@@ -1,0 +1,71 @@
+// NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
+
+###
+# @name allMembers
+GET {{host}}/members
+
+@memberId = {{allMembers.response.body.$[0]._id}}
+
+###
+# @name oneMember
+GET {{host}}/members/{{memberId}}
+
+@firstName = {{oneMember.response.body.firstName}}
+@lastName = {{oneMember.response.body.lastName}}
+@address = {{oneMember.response.body.address}}
+@phoneNumber = {{oneMember.response.body.phoneNumber}}
+@email = {{oneMember.response.body.email}}
+@birthday = {{oneMember.response.body.birthday}}
+@allFamilyMembers = {{oneMember.response.body.allFamilyMembers}}
+
+###
+PUT {{host}}/members/{{memberId}}
+Content-Type: application/json
+
+{
+  "firstName": "{{firstName}}",
+  "lastName": "{{lastName}}",
+  "address": "{{address}}",
+  "phoneNumber": "{{phoneNumber}}",
+  "email": "{{email}}",
+  "birthday": "{{birthday}}",
+  "allFamilyMembers": "{{allFamilyMembers}}"
+}
+
+###
+# @name newMember
+POST {{host}}/members
+Content-Type: application/json
+
+{
+  "firstName": "{{firstName}}",
+  "lastName": "{{lastName}}",
+  "address": "{{address}}",
+  "phoneNumber": "{{phoneNumber}}",
+  "email": "{{email}}",
+  "birthday": "{{birthday}}",
+  "allFamilyMembers": "{{allFamilyMembers}}"
+}
+
+####
+@newMemberId = {{newMember.response.body.insertedId}}
+
+### Verify
+GET {{host}}/members/{{newMemberId}}
+
+### Clean up
+DELETE {{host}}/members/{{newMemberId}}
+
+### TESTING VALIDATION
+PUT {{host}}/members/bad-id
+Content-Type: application/json
+
+{
+  "firstName": "",
+  "lastName": "",
+  "address": "",
+  "phoneNumber": "(12) 345-7878",
+  "email": "notAnEmail@badDomain",
+  "birthday": "13-35-9999",
+  "allFamilyMembers": ""
+}

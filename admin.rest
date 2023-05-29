@@ -1,21 +1,21 @@
 // NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
 
 ###
-# @name admin
+# @name allAdmins
 GET {{host}}/administration
 
-@adminId = {{admin.response.body.$[0]._id}}
+@adminId = {{allAdmins.response.body.$[0]._id}}
 
 ### Get a single object
-# @name one
+# @name oneAdmin
 GET {{host}}/administration/{{adminId}}
 
-@firstName = {{one.response.body.firstName}}
-@lastName = {{one.response.body.lastName}}
-@address = {{one.response.body.address}}
-@phoneNumber = {{one.response.body.phoneNumber}}
-@email = {{one.response.body.email}}
-@position = {{one.response.body.position}}
+@firstName = {{oneAdmin.response.body.firstName}}
+@lastName = {{oneAdmin.response.body.lastName}}
+@address = {{oneAdmin.response.body.address}}
+@phoneNumber = {{oneAdmin.response.body.phoneNumber}}
+@email = {{oneAdmin.response.body.email}}
+@position = {{oneAdmin.response.body.position}}
 
 ### Update record
 PUT {{host}}/administration/{{adminId}}

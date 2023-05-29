@@ -73,7 +73,7 @@ Content-Type: application/json
 @newUserId = {{newUser.response.body.insertedId}}
 
 ### Verify
-# TODO: Currently returns 400, but probably should be 404.
+# TODO: Returns 400 if user not found, but probably should be 404.
 GET {{host}}/users/{{newUserId}}
 
 ### Delete
