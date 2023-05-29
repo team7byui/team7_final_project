@@ -28,17 +28,15 @@ const getTimesFromDuration = (d, d2) => {
   return time.replace(/:00/g, '');
 };
 
-
 /**
  * Return formatted date string for two dates.
- * @param {Date} d
- * @param {Date} [d2]
- * @returns {string} A formatted date string.
+ * @param {Date} d The start date
+ * @param {Date} [d2] The end date, optional
+ * @returns {string} A formatted date string
  */
 const getDatesFromDuration = (d, d2) => {
-
   /**
-   * Helper function
+   * Private helper function
    * @param {Date} date A date
    * @returns {string} Human readable date format
    */
@@ -101,7 +99,6 @@ const convertDateTimeToIso = (obj) => {
     }
   }
 };
-
 
 /**
  * Modifies the body of the request before processing.

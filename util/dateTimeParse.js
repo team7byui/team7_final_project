@@ -139,22 +139,29 @@ const getDurationMsec = (duration) => {
   return 0;
 };
 
+/**
+ * Format hour and minute as ISO duration.
+ * @param {number} hour The hours
+ * @param {number} minute The minutes
+ * @returns {string} The formatted string
+ */
 const toDuration = (hour, minute) => minute > 0 ? `PT${hour}H${minute}M` : `PT${hour}H`;
 
-const testStrings = [
-  { date: undefined, time: '6:30 - 9 p.m.' },
-  { date: undefined, time: '6:30pm - 12am' },
-  { date: undefined, time: '6:30am - 12pm' },
+// const testStrings = [
+//   { date: undefined, time: '6:30 - 9 p.m.' },
+//   { date: undefined, time: '6:30pm - 12am' },
+//   { date: undefined, time: '6:30am - 12pm' },
 
-  { date: 'August 9, 2023', time: '6pm to 9pm'},
-  { date: '', time: '5 thru 6 PM'},
-  { date: null, time: '18:30-21:00' },
-  { date: null, time: '06:30' },
+//   { date: 'August 9, 2023', time: '6pm to 9pm'},
+//   { date: '', time: '5 thru 6 PM'},
+//   { date: null, time: '18:30-21:00' },
+//   { date: null, time: '06:30' },
 
-  { date:'1990/12/25', time: '' },
-  { date: 'Tue, July 18, 2023', time: ''},
-];
+//   { date:'1990/12/25', time: '' },
+//   { date: 'Tue, July 18, 2023', time: ''},
+// ];
 
-testStrings.forEach(f => console.log(f, dateTimeParse(...Object.values(f)), durationParse(f.time)));
+// testStrings.forEach(f =>
+//     console.log(f, dateTimeParse(...Object.values(f)), durationParse(f.time)));
 
 module.exports = { dateTimeParse, durationParse, getDurationMsec, getDurationFromDates };
