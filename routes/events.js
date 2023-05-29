@@ -5,7 +5,6 @@ const {
   idParamRequired,
   reportValidationErrors,
   eventValidationRules,
-  userValidationRules,
 } = require('../middleware/validate');
 
 // Custom middleware to interpret 'date' and 'time' fields.
@@ -26,7 +25,7 @@ routes.post('/',
 
 routes.put('/:id',
   idParamRequired('id'),
-  userValidationRules(),
+  eventValidationRules(),
   reportValidationErrors(),
   eventsController.updateEvent);
 
