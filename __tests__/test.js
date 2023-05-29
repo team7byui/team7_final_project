@@ -40,7 +40,8 @@ const createControllerTests = (controller) => {
     // Mock the behavior of a database operation
     mongodb.getDb().collection().find().toArray.mockRejectedValue(error);
 
-    // Call the controller function with an empty object as the first argument and the mocked response object as the second argument
+    // Call the controller function with an empty object as the first argument
+    // and the mocked response object as the second argument
     await controller({}, response);
 
     // Check if the status function of the response object was called with the argument 500
