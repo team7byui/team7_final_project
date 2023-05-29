@@ -1,5 +1,4 @@
-const { body, validationResult, param } = require('express-validator');
-const { passwordPass } = require('../util/passwordComplexityCheck');
+const { body, validationResult, param, oneOf } = require('express-validator');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 const isValidObjectId = (id) =>
@@ -21,23 +20,26 @@ const phoneChain = () =>
 const dateChain = (field) =>
   body(field)
     .trim()
-    .isDate()
-    .withMessage(
-      (value, meta) => `${meta.path}: '${value}' doesn't appear to be a date.`
-    );
+    .custom((value, meta) => {
+      var test = new Date(value);
+      if (isNaN(test)) {
+        throw new Error(`${meta.path}: '${value}' couldn't be parsed as a date.`);
+      }
+      return true;
+    });
 
-const timeChain = (field) =>
+// const timeChain = (field) =>
+//   body(field)
+//     .trim()
+//     .isTime()
+//     .withMessage(
+//       (value, meta) => `${meta.path}: '${value}' doesn't appear to be a time in HH:MM format.`
+//     );
+
+const requiredBodyChain = (field) =>
   body(field)
     .trim()
-    .isTime()
-    .withMessage(
-      (value, meta) => `${meta.path}: '${value}' doesn't appear to be a time.`
-    );
-
-const requiredChain = (field) =>
-  body(field)
-    .trim()
-    .exists({ values: 'falsy' })
+    .notEmpty()
     .withMessage((value, meta) => `${meta.path} is required.`);
 
 module.exports = {
@@ -51,15 +53,43 @@ module.exports = {
   },
 
   /**
+   * Prevent submitting duplicate email.
+   * @param {import('mongoose').Model} model The model to query
+   * @param {string} [email] Name of email field in body, optional
+   * @param {string} [id] Name of the id parameter, optional
+   * @returns {import('express-validator').ValidationChain} A validation rule
+   */
+  ensureUniqueEmail: (model, email='email', id='id') =>
+    body(email).custom(async (value, meta) => {
+      const myId = isValidObjectId(meta.req.params[id])
+        ? meta.req.params[id]
+        : undefined;
+      const query = {
+        '_id': {$ne: myId},
+        [email]: value
+      };
+      const result = await model.findOne(query);
+      if (result) {
+        throw new Error('E100: Specified email already in use.');
+      }
+    }),
+
+  /**
    * Applies rules for username and password.
    * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
    */
   userValidationRules: () => {
     return [
       // username must be an email
-      requiredChain('username'),
+      requiredBodyChain('username'),
       // validate against complexity rules
-      body('password').custom(passwordPass),
+      body('password')
+        .isLength({min: 8, max:26})
+        .withMessage('Password must be at least 8 characters, and no more than 26 characters long.')
+        .isStrongPassword()
+        .withMessage(
+          'Password must contain at 1 lowercase, 1 uppercase, 1 number, and 1 symbol character.'
+        ),
     ];
   },
 
@@ -69,8 +99,8 @@ module.exports = {
    */
   personValidationRules: () => {
     return [
-      requiredChain('firstName'),
-      requiredChain('lastName'),
+      requiredBodyChain('firstName'),
+      requiredBodyChain('lastName'),
       phoneChain(),
       emailChain(),
       dateChain('birthday').optional()
@@ -83,10 +113,24 @@ module.exports = {
    */
   eventValidationRules: () => {
     return [
-      requiredChain('title'),
-      dateChain('date'),
-      timeChain('time'),
-      requiredChain('location'),
+      requiredBodyChain('title'),
+      requiredBodyChain('location'),
+      oneOf([
+        [
+          body('startDate').notEmpty().isISO8601(),
+          body('endDate').notEmpty().isISO8601()
+        ],
+        [
+          body('startDate').notEmpty().isISO8601(),
+          body('duration').notEmpty().matches(/^PT\d+H(\d{2}M)?/).withMessage((value, meta) =>
+            `${meta.path}: '${value}' doesn't match format PTnH or PTnHnM`
+          )
+        ],
+        [
+          dateChain('date'),
+          body('time').notEmpty()
+        ]
+      ]),
     ];
   },
 

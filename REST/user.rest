@@ -4,16 +4,23 @@
 @weakPassword = awesomeSauce
 @strongerPassword = awesomeSauce123!
 
+### Attempt to steal users DB - SHOULD FAIL with 404 error.
+GET {{host}}/users
+
 ### Get a single object
-# @name one
+# TODO: This shows the hashed password, which could be a security risk.
+# @name oneUser
 GET {{host}}/users/{{userId}}
 
-@username = {{one.response.body.username}}
+@username = {{oneUser.response.body.username}}
 
 ### This should return "true"
 GET {{host}}/users/exists/{{username}}
 
-### Add user -- SHOULD FAIL with complexity violation.
+### This should return "false" since the username is available.
+GET {{host}}/users/exists/newSignup
+
+### Add user -- SHOULD FAIL with password complexity error.
 POST {{host}}/users/
 Content-Type: application/json
 
@@ -53,7 +60,7 @@ Content-Type: application/json
 }
 
 ### Add a new record
-# @name new
+# @name newUser
 POST {{host}}/users/
 Content-Type: application/json
 
@@ -63,20 +70,20 @@ Content-Type: application/json
 }
 
 #### Variables
-@newId = {{new.response.body.insertedId}}
+@newUserId = {{newUser.response.body.insertedId}}
 
 ### Verify
-GET {{host}}/users/{{newId}}
+# TODO: Returns 400 if user not found, but probably should be 404.
+GET {{host}}/users/{{newUserId}}
 
 ### Delete
-DELETE {{host}}/users/{{newId}}
+DELETE {{host}}/users/{{newUserId}}
 
 ### BAD request to test validation
-PUT {{host}}/users/bad-{{newId}}
+PUT {{host}}/users/bad-id
 Content-Type: application/json
 
 {
     "username": "",
     "password": "a"
 }
-

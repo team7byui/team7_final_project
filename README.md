@@ -112,7 +112,7 @@ Plan out what tasks will get completed with each lesson remaining in the semeste
 
 * [ ] OAuth
 * [ ] maybe GraphQL
-* [ ] Validation
+* [x] Validation
 * [x] Error Handling
 * [ ] Unit Testing
 

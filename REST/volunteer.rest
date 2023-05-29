@@ -1,0 +1,56 @@
+// NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
+
+###
+# @name allVolunteers
+GET {{host}}/volunteers
+
+@volunteerId = {{allVolunteers.response.body.$[0]._id}}
+
+### Get a single object
+# @name oneVolunteer
+GET {{host}}/volunteers/{{volunteerId}}
+
+@event = {{oneVolunteer.response.body.event}}
+@opportunity = {{oneVolunteer.response.body.opportunity}}
+@name = {{oneVolunteer.response.body.name}}
+
+###
+PUT {{host}}/volunteers/{{volunteerId}}
+Content-Type: application/json
+
+{
+  "event": "{{event}}",
+  "opportunity": "{{opportunity}}",
+  "name": "{{name}}"
+}
+
+### Execute body as query
+GET {{host}}/volunteers
+Content-Type: application/json
+
+{
+  "event": "Trunk or Treat"
+}
+
+### Advanced join
+GET {{host}}/volunteers
+Content-Type: application/json
+
+[
+  {
+    "$lookup": {
+      "from": "events",
+      "localField": "event",
+      "foreignField": "title",
+      "as": "eventDetail"
+    }
+  },
+  {
+    "$lookup": {
+      "from": "membersWithFullNames",
+      "localField": "name",
+      "foreignField": "fullName",
+      "as": "memberDetail"
+    }
+  }
+]
