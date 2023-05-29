@@ -1,27 +1,23 @@
 const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
+const Administration = require('../models/administration.js');
+const queryFromRequest = require('../util/queryFromRequest.js');
 
 const findAllAdmin = async (request, response) => {
   // #swagger.tags=['Administration']
   // #swagger.summary=Show all admins info
   // #swagger.description=Finds all admin members info
   try {
-    const result = await mongodb
-      .getDb()
-      .db('ClubOrganization')
-      .collection('administration')
-      .find()
-      .toArray();
+    const result = await queryFromRequest(Administration, request);
     // Error handling
     if (result.length > 0) {
       response.setHeader('Content-Type', 'application/json');
       response.status(200).json(result);
     } else {
-      response.status(400).json(result.error || 'Could not get all admin info.');
+      response.status(400).json('Could not get a list of admins.');
     }
-
   } catch (err) {
-    response.status(500).json(err);
+    response.status(500).json(err.message);
   }
 };
 

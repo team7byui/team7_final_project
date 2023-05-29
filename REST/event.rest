@@ -1,0 +1,144 @@
+// NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
+
+
+###
+# @name allEvents
+GET {{host}}/events
+
+@eventId = {{allEvents.response.body.$[7]._id}}
+
+###
+# @name oneEvent
+GET {{host}}/events/{{eventId}}
+
+@title = {{oneEvent.response.body.title}}
+@date = {{oneEvent.response.body.date}}
+@time = {{oneEvent.response.body.time}}
+@startDate = {{oneEvent.response.body.startDate}}
+@endDate = {{oneEvent.response.body.endDate}}
+@duration = {{oneEvent.response.body.duration}}
+@location = {{oneEvent.response.body.location}}
+@details = {{oneEvent.response.body.details}}
+@volunteersNeeded = {{oneEvent.response.body.volunteersNeeded}}
+
+###
+PUT {{host}}/events/{{eventId}}
+Content-Type: application/json
+
+{
+  "title": "{{title}}",
+  "date": "{{date}}",
+  "time": "{{time}}",
+  "location": "{{location}}",
+  "details": "{{details}}",
+  "volunteersNeeded": "{{volunteersNeeded}}"
+}
+
+### Verify
+GET {{host}}/events/{{eventId}}
+
+### New event
+# NOTE: startDate, endDate, and duration are calculated from friendly strings.
+# @name newEvent
+POST {{host}}/events
+Content-Type: application/json
+
+{
+  "title": "{{title}}",
+  "date": "{{date}}",
+  "time": "{{time}}",
+  "location": "{{location}}",
+  "details": "{{details}}",
+  "volunteersNeeded": "{{volunteersNeeded}}"
+}
+
+####
+@newEventId = {{newEvent.response.body.insertedId}}
+
+### Verify
+GET {{host}}/events/{{newEventId}}
+
+### Clean it up
+DELETE {{host}}/events/{{newEventId}}
+
+### Create a new event by specifying an ISO date and duration
+# @name newEventIso
+POST {{host}}/events
+Content-Type: application/json
+
+{
+  "title": "{{title}}",
+  "startDate": "{{startDate}}",
+  "duration": "{{duration}}",
+  "location": "{{location}}",
+  "details": "{{details}}",
+  "volunteersNeeded": "{{volunteersNeeded}}"
+}
+
+####
+@newEventIsoId = {{newEventIso.response.body.insertedId}}
+
+### Verify
+GET {{host}}/events/{{newEventIsoId}}
+
+### Clean up
+DELETE {{host}}/events/{{newEventIsoId}}
+
+### Create new event with ISO start and end date
+# NOTE: Multi-day event, from Jan 23 to Jan 27.
+# @name newEventIso
+POST {{host}}/events
+Content-Type: application/json
+
+{
+  "title": "{{title}}",
+  "startDate": "2023-01-24T15:50:00.000Z",
+  "endDate": "2023-01-28T07:00:00.000Z",
+  "location": "{{location}}",
+  "details": "{{details}}",
+  "volunteersNeeded": "{{volunteersNeeded}}"
+}
+
+####
+@newEventIso = {{newEventIso.response.body.insertedId}}
+
+### ADVANCED: Get events with volunteers.
+GET {{host}}/events
+Content-Type: application/json
+
+[
+  { "$lookup": {
+      "from": "volunteers",
+      "let": { "myTitle": "$title"},
+      "pipeline": [
+        { "$match": { 
+            "$expr": { "$eq": [ "$event", "$$myTitle" ] } 
+          } 
+        },
+        { "$lookup": {
+            "from": "membersWithFullNames",
+            "let": { "myName": "$name" },
+            "pipeline": [
+              { "$match": { "$expr": { "$eq": [ "$fullName", "$$myName" ] } } }
+            ],
+            "as": "memberDetail"
+          }
+        },
+        { "$unwind": "$memberDetail" }
+      ],
+      "as": "volunteers"
+    }
+  },
+  { "$match": {
+      "volunteers": { "$ne": [] }
+    }
+  },
+  { "$project": {
+      "_id": 0,
+      "title": 1,
+      "volunteersNeeded": 1,
+      "volunteers.opportunity": 1,
+      "volunteers.memberDetail": 1
+    }
+  }
+]

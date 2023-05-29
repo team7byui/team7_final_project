@@ -1,10 +1,7 @@
 const administrationController = require('../controllers/administration');
 const { createControllerTests, getAllTest} = require('./test');
-const { MongoClient } = require('mongodb');
-const dotenv = require('dotenv');
-dotenv.config();
 
-jest.mock('mongodb');
+administrationController.toString = () => 'AdministrationController';
 
 // Administration Controller Tests
 describe('Administration Controller', () => {

@@ -1,6 +1,7 @@
 const usersController = require('../controllers/users');
 const { createControllerTests } = require('./test');
-const { MongoClient } = require('mongodb');
+
+usersController.toString = () => 'UsersController';
 
 // Users Controller Tests
 describe('Users Controller', () => {

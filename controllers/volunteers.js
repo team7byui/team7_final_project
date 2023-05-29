@@ -1,26 +1,23 @@
 const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
+const Volunteer = require('../models/volunteer.js');
+const queryFromRequest = require('../util/queryFromRequest');
 
 const getAll = async (request, response) => {
   // #swagger.tags=['Volunteers']
   // #swagger.summary=Show all volunteer info
   // #swagger.description=See all volunteer info
+  // #swagger.
   try {
-    const result = await mongodb
-      .getDb()
-      .db('ClubOrganization')
-      .collection('volunteers')
-      .find()
-      .toArray();
-    // Error handling
+    const result = await queryFromRequest(Volunteer, request);
     if (result.length > 0) {
       response.setHeader('Content-Type', 'application/json');
       response.status(200).json(result);
     } else {
-      response.status(400).json(result.error || 'Could not get list of volunteers.');
+      response.status(400).json('Could not get list of volunteers.');
     }
   } catch (err) {
-    response.status(500).json(err);
+    response.status(500).json(err.message);
   }
 };
 
@@ -143,5 +140,5 @@ module.exports = {
   getSingle,
   createVolunteer,
   updateVolunteer,
-  deleteVolunteer
+  deleteVolunteer,
 };

@@ -1,8 +1,15 @@
-// Each route has its own .REST file.
+// Each route has its own file in the REST folder.
 
-//- admin.rest
-//- event.rest
-//- member.rest
-//- user.rest
-//- volunteer.rest
+// REST
+//-- admin.rest
+//-- event.rest
+//-- member.rest
+//-- user.rest
+//-- volunteer.rest
+
+// With the .REST file in the active window, use the VS Code status bar to select your REST Client Environment.
+// The Environment will select the {{host}} variable as defined in the workspace settings file.
+
+// .vscode
+//-- settings.json
 

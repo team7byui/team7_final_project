@@ -1,26 +1,23 @@
 const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
+const Event = require('../models/event.js');
+const queryFromRequest = require('../util/queryFromRequest');
 
 const getAll = async (request, response) => {
   // #swagger.tags=['Events']
   // #swagger.summary=Show all events info
   // #swagger.description=Displays all events info
   try {
-    const result = await mongodb
-      .getDb()
-      .db('ClubOrganization')
-      .collection('events')
-      .find()
-      .toArray();
+    const result = await queryFromRequest(Event, request);
     //Error handling
     if (result.length > 0) {
       response.setHeader('Content-Type', 'application/json');
       response.status(200).json(result);
     } else {
-      response.status(400).json(result.error || 'Could not get list of events');
+      response.status(400).json('Could not get list of events');
     }
   } catch (err) {
-    response.status(500).json(err);
+    response.status(500).json(err.message);
   }
 };
 
@@ -59,8 +56,9 @@ const createEvent = async (request, response) => {
   try {
     const events = {
       title: request.body.title,
-      date: request.body.date,
-      time: request.body.time,
+      startDate: request.body.startDate,
+      endDate: request.body.endDate,
+      duration: request.body.duration,
       location: request.body.location,
       details: request.body.details,
       volunteersNeeded: request.body.volunteersNeeded
@@ -77,20 +75,21 @@ const createEvent = async (request, response) => {
   }
 };
 
-const updateEvent = async (req, res) => {
+const updateEvent = async (request, response) => {
   // #swagger.tags=['Events']
   // #swagger.summary=Update an event
   // #swagger.description=Fill in new event info to update event
   try {
-    if (ObjectId.isValid(req.params.id)) {
-      const eventName = new ObjectId(req.params.id);
+    if (ObjectId.isValid(request.params.id)) {
+      const eventName = new ObjectId(request.params.id);
       const events = {
-        title: req.body.title,
-        date: req.body.date,
-        time: req.body.time,
-        location: req.body.location,
-        details: req.body.details,
-        volunteersNeeded: req.body.volunteersNeeded
+        title: request.body.title,
+        startDate: request.body.startDate,
+        endDate: request.body.endDate,
+        duration: request.body.duration,
+        location: request.body.location,
+        details: request.body.details,
+        volunteersNeeded: request.body.volunteersNeeded
       };
       const eventsCollection = await mongodb
         .getDb()
@@ -100,15 +99,15 @@ const updateEvent = async (req, res) => {
       console.log(eventsCollection.modifiedCount + 'document(s) were updated');
       // Error handling
       if (eventsCollection.modifiedCount > 0) {
-        res.status(204).send(eventsCollection.modifiedCount + 'document(s) were updated');
+        response.status(204).send(eventsCollection.modifiedCount + 'document(s) were updated');
       } else {
-        res.status(500).json(eventsCollection.error || 'New information could not be updated');
+        response.status(500).json(eventsCollection.error || 'New information could not be updated');
       }
     } else {
-      res.status(400).json('Must use a valid event id to update event info.');
+      response.status(400).json('Must use a valid event id to update event info.');
     }
   } catch (err) {
-    res.status(500).json(err);
+    response.status(500).json(err);
   }
 };
 
