@@ -1,26 +1,23 @@
 const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
+const Event = require('../models/event.js');
+const queryFromRequest = require('../util/queryFromRequest');
 
 const getAll = async (request, response) => {
   // #swagger.tags=['Events']
   // #swagger.summary=Show all events info
   // #swagger.description=Displays all events info
   try {
-    const result = await mongodb
-      .getDb()
-      .db('ClubOrganization')
-      .collection('events')
-      .find()
-      .toArray();
+    const result = await queryFromRequest(Event, request);
     //Error handling
     if (result.length > 0) {
       response.setHeader('Content-Type', 'application/json');
       response.status(200).json(result);
     } else {
-      response.status(400).json(result.error || 'Could not get list of events');
+      response.status(400).json('Could not get list of events');
     }
   } catch (err) {
-    response.status(500).json(err);
+    response.status(500).json(err.message);
   }
 };
 

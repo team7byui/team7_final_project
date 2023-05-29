@@ -10,7 +10,7 @@ const Administration = mongoose.model(
     email: String,
     position: String
   }, {
-    collation: 'administration'
+    collection: 'administration'
   })
 );
 

@@ -24,3 +24,33 @@ Content-Type: application/json
   "name": "{{name}}"
 }
 
+### Execute body as query
+GET {{host}}/volunteers
+Content-Type: application/json
+
+{
+  "event": "Trunk or Treat"
+}
+
+### Advanced join
+GET {{host}}/volunteers
+Content-Type: application/json
+
+[
+  {
+    "$lookup": {
+      "from": "events",
+      "localField": "event",
+      "foreignField": "title",
+      "as": "eventDetail"
+    }
+  },
+  {
+    "$lookup": {
+      "from": "membersWithFullNames",
+      "localField": "name",
+      "foreignField": "fullName",
+      "as": "memberDetail"
+    }
+  }
+]

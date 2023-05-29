@@ -80,3 +80,19 @@ Content-Type: application/json
     "email": "notAnEmail@badDomain"
 }
 
+### Advanced queries
+GET {{host}}/administration?fields=email
+Content-Type: application/json
+
+{
+    "firstName": "{{firstName}}",
+    "lastName": "{{lastName}}"
+}
+
+### Advanced queries
+GET {{host}}/administration
+Content-Type: application/json
+
+{
+    "position": { "$regex": "President" }
+}

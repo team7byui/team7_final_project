@@ -101,3 +101,44 @@ Content-Type: application/json
 
 ####
 @newEventIso = {{newEventIso.response.body.insertedId}}
+
+### ADVANCED: Get events with volunteers.
+GET {{host}}/events
+Content-Type: application/json
+
+[
+  { "$lookup": {
+      "from": "volunteers",
+      "let": { "myTitle": "$title"},
+      "pipeline": [
+        { "$match": { 
+            "$expr": { "$eq": [ "$event", "$$myTitle" ] } 
+          } 
+        },
+        { "$lookup": {
+            "from": "membersWithFullNames",
+            "let": { "myName": "$name" },
+            "pipeline": [
+              { "$match": { "$expr": { "$eq": [ "$fullName", "$$myName" ] } } }
+            ],
+            "as": "memberDetail"
+          }
+        },
+        { "$unwind": "$memberDetail" }
+      ],
+      "as": "volunteers"
+    }
+  },
+  { "$match": {
+      "volunteers": { "$ne": [] }
+    }
+  },
+  { "$project": {
+      "_id": 0,
+      "title": 1,
+      "volunteersNeeded": 1,
+      "volunteers.opportunity": 1,
+      "volunteers.memberDetail": 1
+    }
+  }
+]
