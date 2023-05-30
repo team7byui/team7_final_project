@@ -31,12 +31,12 @@ router.get('/login', (req, res, next) => {
     #swagger.summary=Start local authorization flow.
     #swagger.consumes = ['application/json']
     #swagger.parameters['username'] = {
-      "in": "body",
+      "in": "query",
       "required": true,
       "type": "string"
     }
     #swagger.parameters['password'] = {
-      "in": "body",
+      "in": "query",
       "required": true,
       "type": "string"
     }
