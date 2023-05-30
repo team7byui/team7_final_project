@@ -7,7 +7,7 @@ const {
   userValidationRules,
   ensureUniqueUser,
 } = require('../middleware/validate');
-const User = require('../models/User');
+const {User} = require('../models');
 
 routes.get('/:id',
   isAuthenticated,

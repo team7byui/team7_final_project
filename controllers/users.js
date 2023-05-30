@@ -1,6 +1,6 @@
 const { MongoServerError } = require('mongodb');
 const bcrypt = require('bcrypt');
-const User = require('../models/User');
+const {User} = require('../models');
 
 const getSingle = async (req, res) => {
   // #swagger.tags=['Users']
