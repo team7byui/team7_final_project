@@ -27,11 +27,18 @@ const createUsers = async (req, res) => {
   try {
     const username = req.body.username;
     const password = req.body.password;
-
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const result = await User({ username, password: hashedPassword });
-    res.status(201).json(result);
+    const googleId = req.body.googleId;
+    if (username && password) {
+      // Hash password
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const result = await User.create({ username, password: hashedPassword });
+      res.status(201).json(result);
+    } else if (googleId) {
+      const result = await User.create(req.body);
+      res.status(201).json(result);
+    } else {
+      res.status(400).send('Need either username/password or googleId to create user.');
+    }
   } catch (err) {
     if (err instanceof MongoServerError && err.code === 11000) {
       res.status(400).json('Username already exists.');
@@ -52,13 +59,13 @@ const updateUser = async (req, res) => {
     if (username && password) {
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
-      const result = await User.findByIdAndUpdate(
+      await User.findByIdAndUpdate(
         req.params.id, { username, password: hashedPassword }
       );
-      res.status(204).json(result);
+      res.status(204);
     } else if (googleId) {
-      const result = await User.findByIdAndUpdate(req.param.id, req.body);
-      res.status(204).json(result);
+      await User.findByIdAndUpdate(req.param.id, req.body);
+      res.status(204);
     } else {
       res.status(400).send('Need either username/password or googleId to create user.');
     }
