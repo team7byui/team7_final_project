@@ -1,4 +1,4 @@
-// NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
+#* NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
 
 @userId = 6466d734172e9435fb18f97d
 @weakPassword = awesomeSauce
@@ -7,20 +7,29 @@
 ### Attempt to steal users DB - SHOULD FAIL with 404 error.
 GET {{host}}/users
 
+### This should return "false" since the username is available.
+GET {{host}}/users/exists/newSignup
+
 ### Get a single object
-# TODO: This shows the hashed password, which could be a security risk.
+#! 401 Unauthorized
 # @name oneUser
 GET {{host}}/users/{{userId}}
 
 @username = {{oneUser.response.body.username}}
 
+### Log in
+GET {{host}}/auth/login
+Content-Type: application/json
+
+{
+    "username": "ptaPres",
+    "password": "{{strongerPassword}}"
+}
+
 ### This should return "true"
 GET {{host}}/users/exists/{{username}}
 
-### This should return "false" since the username is available.
-GET {{host}}/users/exists/newSignup
-
-### Add user -- SHOULD FAIL with password complexity error.
+### Add user -- SHOULD FAIL with password complexity error and duplicate user.
 POST {{host}}/users/
 Content-Type: application/json
 
@@ -39,18 +48,7 @@ Content-Type: application/json
 }
 
 ### Update user by id
-PUT {{host}}/users/{{userId}}
-Content-Type: application/json
-
-{
-    "username": "{{username}}-123",
-    "password": "{{strongerPassword}}"
-}
-
-### Verify
-GET {{host}}/users/{{userId}}
-
-### Return to original username
+#* This is allowed because we are updating an existing user.
 PUT {{host}}/users/{{userId}}
 Content-Type: application/json
 
@@ -70,7 +68,7 @@ Content-Type: application/json
 }
 
 #### Variables
-@newUserId = {{newUser.response.body.insertedId}}
+@newUserId = {{newUser.response.body._id}}
 
 ### Verify
 # TODO: Returns 400 if user not found, but probably should be 404.

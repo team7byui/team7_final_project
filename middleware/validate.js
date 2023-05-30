@@ -1,4 +1,5 @@
 const { body, validationResult, param, oneOf } = require('express-validator');
+const { Model } = require('mongoose');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 const isValidObjectId = (id) =>
@@ -48,9 +49,7 @@ module.exports = {
    * @param {string} field The object property to validate
    * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
    */
-  idParamRequired: (field) => {
-    return [param(field).custom(isValidObjectId)];
-  },
+  idParamRequired: (field) => param(field).exists().custom(isValidObjectId),
 
   /**
    * Prevent submitting duplicate email.
@@ -75,64 +74,99 @@ module.exports = {
     }),
 
   /**
+   * Prevent submitting either duplicate username or googleId.
+   * @param {Model} model The model to query
+   * @param {string} username Name of username field, optional
+   * @param {string} googleId Name of googleId field, optional
+   * @param {string} id Name of id parameter, optional
+   * @returns {import('express-validator').ValidationChain} A validation rule
+   */
+  ensureUniqueUser: (model, username='username', googleId='googleId', id='id') =>
+    oneOf([
+      body(username).notEmpty().custom(async (value, meta) => {
+        const myId = isValidObjectId(meta.req.params[id])
+          ? meta.req.params[id]
+          : undefined;
+        const query = {
+          '_id': {$ne: myId},
+          [username]: value
+        };
+        const result = await model.findOne(query);
+        if (result) {
+          throw new Error('E100: Specified username already in use.');
+        }
+      })
+    ],
+    [
+      body(googleId).notEmpty(),
+      body(googleId).custom(async (value, meta) => {
+        const myId = isValidObjectId(meta.req.params[id])
+          ? meta.req.params[id]
+          : undefined;
+        const query = {
+          '_id': {$ne: myId},
+          [googleId]: value
+        };
+        const result = await model.findOne(query);
+        if (result) {
+          throw new Error('E100: Specified Google ID already in use.');
+        }
+      })
+    ]),
+
+  /**
    * Applies rules for username and password.
    * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
    */
-  userValidationRules: () => {
-    return [
-      // username must be an email
-      requiredBodyChain('username'),
-      // validate against complexity rules
-      body('password')
-        .isLength({min: 8, max:26})
-        .withMessage('Password must be at least 8 characters, and no more than 26 characters long.')
-        .isStrongPassword()
-        .withMessage(
-          'Password must contain at 1 lowercase, 1 uppercase, 1 number, and 1 symbol character.'
-        ),
-    ];
-  },
+  userValidationRules: () => [
+    // username must be an email
+    requiredBodyChain('username'),
+    // validate against complexity rules
+    body('password')
+      .isLength({min: 8, max:26})
+      .withMessage('Password must be at least 8 characters, and no more than 26 characters long.')
+      .isStrongPassword()
+      .withMessage(
+        'Password must contain at 1 lowercase, 1 uppercase, 1 number, and 1 symbol character.'
+      ),
+  ],
 
   /**
    * Applies rules for firstName, lastName, phoneNumber, and email.
    * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
    */
-  personValidationRules: () => {
-    return [
-      requiredBodyChain('firstName'),
-      requiredBodyChain('lastName'),
-      phoneChain(),
-      emailChain(),
-      dateChain('birthday').optional()
-    ];
-  },
+  personValidationRules: () => [
+    requiredBodyChain('firstName'),
+    requiredBodyChain('lastName'),
+    phoneChain(),
+    emailChain(),
+    dateChain('birthday').optional()
+  ],
 
   /**
    * Applies rules for title, date, time, and location.
    * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
    */
-  eventValidationRules: () => {
-    return [
-      requiredBodyChain('title'),
-      requiredBodyChain('location'),
-      oneOf([
-        [
-          body('startDate').notEmpty().isISO8601(),
-          body('endDate').notEmpty().isISO8601()
-        ],
-        [
-          body('startDate').notEmpty().isISO8601(),
-          body('duration').notEmpty().matches(/^PT\d+H(\d{2}M)?/).withMessage((value, meta) =>
-            `${meta.path}: '${value}' doesn't match format PTnH or PTnHnM`
-          )
-        ],
-        [
-          dateChain('date'),
-          body('time').notEmpty()
-        ]
-      ]),
-    ];
-  },
+  eventValidationRules: () => [
+    requiredBodyChain('title'),
+    requiredBodyChain('location'),
+    oneOf([
+      [
+        body('startDate').notEmpty().isISO8601(),
+        body('endDate').notEmpty().isISO8601()
+      ],
+      [
+        body('startDate').notEmpty().isISO8601(),
+        body('duration').notEmpty().matches(/^PT\d+H(\d{2}M)?/).withMessage((value, meta) =>
+          `${meta.path}: '${value}' doesn't match format PTnH or PTnHnM`
+        )
+      ],
+      [
+        dateChain('date'),
+        body('time').notEmpty()
+      ]
+    ]),
+  ],
 
   /**
    * @typedef {import('express').Request} Request

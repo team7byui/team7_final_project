@@ -4,9 +4,14 @@ const Member = require('../models/member.js');
 const queryFromRequest = require('../util/queryFromRequest');
 
 const getAll = async (request, response) => {
-  // #swagger.tags=['Members']
-  // #swagger.summary=Show all members info
-  // #swagger.description=Shows all members info
+  /*
+    #swagger.tags=['Members']
+    #swagger.summary=Show all members info
+    #swagger.description=Shows all members info
+    #swagger.responses[200] = {
+      schema: { $ref: '#/definitions/MemberArray' }
+    }
+  */
   try {
     const result = await queryFromRequest(Member, request);
     // Error handling
@@ -22,9 +27,14 @@ const getAll = async (request, response) => {
 };
 
 const getSingle = async (request, response) => {
-  // #swagger.tags=['Members']
-  // #swagger.summary=Get member info based off id
-  // #swagger.description=Show a members info based off id
+  /*
+    #swagger.tags=['Members']
+    #swagger.summary=Get member info based off id
+    #swagger.description=Show a members info based off id
+    #swagger.responses[200] = {
+      schema: { $ref: '#/definitions/Member' }
+    }
+  */
   try {
     if (ObjectId.isValid(request.params.id)) {
       const memberID = new ObjectId(request.params.id);
@@ -49,9 +59,14 @@ const getSingle = async (request, response) => {
   }
 };
 const createMembers = async (request, response) => {
-  // #swagger.tags=['Members']
-  // #swagger.summary=Create a new member
-  // #swagger.description=Fill in new members info to create a new member
+  /*
+    #swagger.tags=['Members']
+    #swagger.summary=Create a new member
+    #swagger.description=Fill in new members info to create a new member
+    #swagger.responses[201] = {
+      schema: { $ref: '#/definitions/InsertedId' }
+    }
+  */
   try {
     const members = {
       firstName: request.body.firstName,

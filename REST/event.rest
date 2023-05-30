@@ -1,5 +1,4 @@
-// NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
-
+#* NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
 
 ###
 # @name allEvents
@@ -22,6 +21,7 @@ GET {{host}}/events/{{eventId}}
 @volunteersNeeded = {{oneEvent.response.body.volunteersNeeded}}
 
 ###
+#! 401 Unauthorized
 PUT {{host}}/events/{{eventId}}
 Content-Type: application/json
 
@@ -34,11 +34,9 @@ Content-Type: application/json
   "volunteersNeeded": "{{volunteersNeeded}}"
 }
 
-### Verify
-GET {{host}}/events/{{eventId}}
-
 ### New event
-# NOTE: startDate, endDate, and duration are calculated from friendly strings.
+#! 401 Unauthorized
+#* NOTE: startDate, endDate, and duration are calculated from friendly strings.
 # @name newEvent
 POST {{host}}/events
 Content-Type: application/json
@@ -59,9 +57,11 @@ Content-Type: application/json
 GET {{host}}/events/{{newEventId}}
 
 ### Clean it up
+#! 401 Unauthorized
 DELETE {{host}}/events/{{newEventId}}
 
 ### Create a new event by specifying an ISO date and duration
+#! 401 Unauthorized
 # @name newEventIso
 POST {{host}}/events
 Content-Type: application/json
@@ -82,10 +82,12 @@ Content-Type: application/json
 GET {{host}}/events/{{newEventIsoId}}
 
 ### Clean up
+#! 401 Unauthorized
 DELETE {{host}}/events/{{newEventIsoId}}
 
 ### Create new event with ISO start and end date
-# NOTE: Multi-day event, from Jan 23 to Jan 27.
+#! 401 Unauthorized
+#* NOTE: Multi-day event, from Jan 23 to Jan 27.
 # @name newEventIso
 POST {{host}}/events
 Content-Type: application/json

@@ -1,5 +1,6 @@
 const routes = require('express').Router();
 const administrationController = require('../controllers/administration');
+const { isAuthenticated } = require('../middleware/authenticate');
 const {
   idParamRequired,
   personValidationRules,
@@ -14,8 +15,8 @@ routes.get('/:id',
   administrationController.getSingle
 );
 
-routes.post(
-  '/',
+routes.post('/',
+  isAuthenticated,
   personValidationRules(),
   reportValidationErrors(),
   administrationController.createAdministration
@@ -23,6 +24,7 @@ routes.post(
 
 routes.put(
   '/:id',
+  isAuthenticated,
   idParamRequired('id'),
   personValidationRules(),
   reportValidationErrors(),
@@ -31,6 +33,7 @@ routes.put(
 
 routes.delete(
   '/:id',
+  isAuthenticated,
   idParamRequired('id'),
   reportValidationErrors(),
   administrationController.deleteAdministration
