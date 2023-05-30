@@ -6,22 +6,12 @@ const definitions = Object.keys(models).reduce((prev, key) => {
   prev[key] = m2s(models[key], {
     omitFields: ['_id','__v','createdAt']
   });
-  prev[`${key}Array`] = {
-    type: 'array',
-    items: {
-      '$ref': `#/definitions/${key}`
-    }
-  };
+  prev[`${key}Array`] = [{ '$ref': `#/definitions/${key}`}];
   return prev;
 }, {});
 
 definitions['InsertedId'] = {
-  type: 'object',
-  properties: {
-    insertedId: {
-      type: 'string'
-    }
-  }
+  insertedId: 'objectId'
 };
 
 const doc = {

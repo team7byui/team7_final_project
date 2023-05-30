@@ -31,7 +31,10 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/AdministratorArray"
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -78,7 +81,10 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/InsertedId"
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -112,7 +118,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Administrator"
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -362,7 +371,10 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -420,7 +432,10 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/MemberArray"
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -470,7 +485,10 @@
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/InsertedId"
+            }
           },
           "401": {
             "description": "Unauthorized"
@@ -504,7 +522,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Member"
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -625,7 +646,10 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/EventArray"
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -674,6 +698,12 @@
           }
         ],
         "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/InsertedId"
+            },
+            "description": "OK"
+          },
           "201": {
             "description": "Created"
           },
@@ -709,7 +739,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Event"
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -1136,15 +1169,9 @@
       }
     },
     "AdministrationArray": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "example": "array"
-        },
-        "items": {
-          "$ref": "#/definitions/Administration"
-        }
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Administration"
       }
     },
     "Event": {
@@ -1216,15 +1243,9 @@
       }
     },
     "EventArray": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "example": "array"
-        },
-        "items": {
-          "$ref": "#/definitions/Event"
-        }
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Event"
       }
     },
     "Member": {
@@ -1305,15 +1326,9 @@
       }
     },
     "MemberArray": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "example": "array"
-        },
-        "items": {
-          "$ref": "#/definitions/Member"
-        }
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Member"
       }
     },
     "User": {
@@ -1403,15 +1418,9 @@
       }
     },
     "UserArray": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "example": "array"
-        },
-        "items": {
-          "$ref": "#/definitions/User"
-        }
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/User"
       }
     },
     "Volunteer": {
@@ -1456,14 +1465,17 @@
       }
     },
     "VolunteerArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Volunteer"
+      }
+    },
+    "InsertedId": {
       "type": "object",
       "properties": {
-        "type": {
+        "insertedId": {
           "type": "string",
-          "example": "array"
-        },
-        "items": {
-          "$ref": "#/definitions/Volunteer"
+          "example": "objectId"
         }
       }
     }

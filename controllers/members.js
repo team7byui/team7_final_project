@@ -32,7 +32,7 @@ const getSingle = async (request, response) => {
     #swagger.summary=Get member info based off id
     #swagger.description=Show a members info based off id
     #swagger.responses[200] = {
-      schema: { $ref: '#/definitions/Member }
+      schema: { $ref: '#/definitions/Member' }
     }
   */
   try {
