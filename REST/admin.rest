@@ -18,6 +18,7 @@ GET {{host}}/administration/{{adminId}}
 @position = {{oneAdmin.response.body.position}}
 
 ### Update record
+#! 401 Unauthorized
 PUT {{host}}/administration/{{adminId}}
 Content-Type: application/json
 

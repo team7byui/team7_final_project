@@ -1,0 +1,20 @@
+#* NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
+
+### This will fail until you've logged in successfully.
+#! 401 Unauthorized
+GET {{host}}/users/6466d734172e9435fb18f97d
+
+### This should return an HTML payload for Google.
+GET {{host}}/auth/google
+
+### This returns the Swagger UI endpoint.
+GET {{host}}/auth/login
+Content-Type: application/json
+
+{
+    "username": "ptaPres",
+    "password": "awesomeSauce123!"
+}
+
+### Logout
+GET {{host}}/auth/logout
