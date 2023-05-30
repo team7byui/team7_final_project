@@ -15,6 +15,15 @@ const definitions = Object.keys(models).reduce((prev, key) => {
   return prev;
 }, {});
 
+definitions['InsertedId'] = {
+  type: 'object',
+  properties: {
+    insertedId: {
+      type: 'string'
+    }
+  }
+};
+
 const doc = {
   swagger: '2.0',
   info: {

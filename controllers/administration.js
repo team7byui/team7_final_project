@@ -4,9 +4,14 @@ const Administration = require('../models/administration.js');
 const queryFromRequest = require('../util/queryFromRequest.js');
 
 const findAllAdmin = async (request, response) => {
-  // #swagger.tags=['Administration']
-  // #swagger.summary=Show all admins info
-  // #swagger.description=Finds all admin members info
+  /*
+    #swagger.tags=['Administration']
+    #swagger.summary=Show all admins info
+    #swagger.description=Finds all admin members info
+    #swagger.responses[200] = {
+      schema: { $ref: '#/definitions/AdministratorArray' }
+    }
+  */
   try {
     const result = await queryFromRequest(Administration, request);
     // Error handling
@@ -22,9 +27,14 @@ const findAllAdmin = async (request, response) => {
 };
 
 const getSingle = async (request, response) => {
-  // #swagger.tags=['Administration']
-  // #swagger.summary=Show an admins info based off id
-  // #swagger.description=Finds an admin members info based off id
+  /*
+    #swagger.tags=['Administration']
+    #swagger.summary=Show an admins info based off id
+    #swagger.description=Finds an admin members info based off id
+    #swagger.responses[200] = {
+      schema: { $ref: '#/definitions/Administrator' }
+    }
+  */
   try {
     if (ObjectId.isValid(request.params.id)) {
       const userId = new ObjectId(request.params.id);
@@ -50,9 +60,14 @@ const getSingle = async (request, response) => {
 };
 
 const createAdministration = async (request, response) => {
-  // #swagger.tags=['Administration']
-  // #swagger.summary=Add a new admin position to database
-  // #swagger.description=Enter new admin positions information to add to database
+  /*
+    #swagger.tags=['Administration']
+    #swagger.summary=Add a new admin position to database
+    #swagger.description=Enter new admin positions information to add to database
+    #swagger.responses[201] = {
+      schema: { $ref: '#/definitions/InsertedId' }
+    }
+  */
   try {
     const Administration = {
       firstName: request.body.firstName,

@@ -21,9 +21,14 @@ const getSingle = async (req, res) => {
 };
 
 const createUsers = async (req, res) => {
-  // #swagger.tags=['Users']
-  // #swagger.summary=Create a new user
-  // #swagger.description=Create a users email and hashed password
+  /*
+    #swagger.tags=['Users']
+    #swagger.summary=Create a new user
+    #swagger.description=Create a users email and hashed password
+    #swagger.responses[201] = {
+      schema: { $ref: '#/definitions/User' }
+    }
+  */
   try {
     const username = req.body.username;
     const password = req.body.password;
