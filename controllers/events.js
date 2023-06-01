@@ -5,7 +5,6 @@ const queryFromRequest = require('../util/queryFromRequest');
 
 const getAll = async (request, response) => {
   /*
-    #swagger.tags=['Events']
     #swagger.summary=Show all events info
     #swagger.description=Displays all events info
     #swagger.responses[200] = {
@@ -28,7 +27,6 @@ const getAll = async (request, response) => {
 
 const getSingle = async (request, response) => {
   /*
-    #swagger.tags=['Events']
     #swagger.summary=Show event info based off id
     #swagger.description=Displays event info based off id
     #swagger.responses[200] = {
@@ -61,11 +59,14 @@ const getSingle = async (request, response) => {
 
 const createEvent = async (request, response) => {
   /*
-    #swagger.tags=['Events']
     #swagger.summary=Create an event
     #swagger.description=Fill in event info to create event
+    #swagger.parameters['body'] = {
+      in: 'body',
+      schema: { $ref: '#/definitions/Event' }
+    }
     #swagger.responses[200] = {
-      schema: { $ref: '#/definitions/InsertedId' }
+      schema: { $ref: '#/definitions/InsertedResponse' }
     }
   */
   try {
@@ -91,9 +92,14 @@ const createEvent = async (request, response) => {
 };
 
 const updateEvent = async (request, response) => {
-  // #swagger.tags=['Events']
-  // #swagger.summary=Update an event
-  // #swagger.description=Fill in new event info to update event
+  /*
+    #swagger.summary=Update an event
+    #swagger.description=Fill in new event info to update event
+    #swagger.parameters['body'] = {
+      in: 'body',
+      schema: { $ref: '#/definitions/Event' }
+    }
+  */
   try {
     if (ObjectId.isValid(request.params.id)) {
       const eventName = new ObjectId(request.params.id);
@@ -127,7 +133,6 @@ const updateEvent = async (request, response) => {
 };
 
 const deleteEvent = async (req, res) => {
-  // #swagger.tags=['Events']
   // #swagger.summary=Delete an event
   // #swagger.description=Delete event info using event id
   try {

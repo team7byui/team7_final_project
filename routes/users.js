@@ -5,14 +5,15 @@ const {
   idParamRequired,
   reportValidationErrors,
   userValidationRules,
-  ensureUniqueUser,
+  ensureUniqueUser
 } = require('../middleware/validate');
 const {User} = require('../models');
 
 routes.get('/:id',
   isAuthenticated,
-  idParamRequired('id'),
-  reportValidationErrors(),
+  reportValidationErrors(
+    idParamRequired('id')
+  ),
   usersController.getSingle);
 
 routes.post('/',
@@ -24,16 +25,16 @@ routes.post('/',
 
 routes.put('/:id',
   isAuthenticated,
-  idParamRequired('id'),
   userValidationRules(),
   ensureUniqueUser(User),
-  reportValidationErrors(),
+  reportValidationErrors(idParamRequired('id')),
   usersController.updateUser);
 
 routes.delete('/:id',
   isAuthenticated,
-  idParamRequired('id'),
-  reportValidationErrors(),
+  reportValidationErrors(
+    idParamRequired('id')
+  ),
   usersController.deleteUser);
 
 routes.get('/exists/:username',

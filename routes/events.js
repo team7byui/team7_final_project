@@ -15,27 +15,22 @@ routes.use(intercept.dateResponse);
 routes.get('/', eventsController.getAll);
 
 routes.get('/:id',
-  idParamRequired('id'),
-  reportValidationErrors(),
+  reportValidationErrors(idParamRequired('id')),
   eventsController.getSingle);
 
 routes.post('/',
   isAuthenticated,
-  eventValidationRules(),
-  reportValidationErrors(),
+  reportValidationErrors(eventValidationRules()),
   eventsController.createEvent);
 
 routes.put('/:id',
   isAuthenticated,
-  idParamRequired('id'),
-  eventValidationRules(),
-  reportValidationErrors(),
+  reportValidationErrors(idParamRequired('id'), eventValidationRules()),
   eventsController.updateEvent);
 
 routes.delete('/:id',
   isAuthenticated,
-  idParamRequired('id'),
-  reportValidationErrors(),
+  reportValidationErrors(idParamRequired('id')),
   eventsController.deleteEvent);
 
 module.exports = routes;

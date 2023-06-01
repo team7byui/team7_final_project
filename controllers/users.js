@@ -3,9 +3,13 @@ const bcrypt = require('bcrypt');
 const {User} = require('../models');
 
 const getSingle = async (req, res) => {
-  // #swagger.tags=['Users']
-  // #swagger.summary=Show users info based off id
-  // #swagger.description=Show users email and hashed password based off id
+  /*
+    #swagger.summary=Show users info based off id
+    #swagger.description=Show users email and hashed password based off id
+    #swagger.responses[201] = {
+      schema: { $ref: '#/definitions/User' }
+    }
+  */
   try {
     const result = await User.findById(req.params.id);
     // Error handling
@@ -22,9 +26,12 @@ const getSingle = async (req, res) => {
 
 const createUsers = async (req, res) => {
   /*
-    #swagger.tags=['Users']
     #swagger.summary=Create a new user
     #swagger.description=Create a users email and hashed password
+    #swagger.parameters['body'] = {
+      in: 'body',
+      schema: { $ref: '#/definitions/Member' }
+    }
     #swagger.responses[201] = {
       schema: { $ref: '#/definitions/User' }
     }
@@ -37,10 +44,10 @@ const createUsers = async (req, res) => {
       // Hash password
       const hashedPassword = await bcrypt.hash(password, 10);
       const result = await User.create({ username, password: hashedPassword });
-      res.status(201).json(result);
+      res.status(201).json({ insertedId: result._id });
     } else if (googleId) {
       const result = await User.create(req.body);
-      res.status(201).json(result);
+      res.status(201).json({ insertedId: result._id });
     } else {
       res.status(400).send('Need either username/password or googleId to create user.');
     }
@@ -54,9 +61,14 @@ const createUsers = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  // #swagger.tags=['Users']
-  // #swagger.summary=Update a users info based off id
-  // #swagger.description=Update a users email and hashed password based off id
+  /*
+    #swagger.summary=Update a users info based off id
+    #swagger.description=Update a users email and hashed password based off id
+    #swagger.parameters['body'] = {
+        in: 'body',
+       schema: { $ref: '#/definitions/Member' }
+    }
+  */
   try {
     const username = req.body.username;
     const password = req.body.password;
@@ -67,10 +79,10 @@ const updateUser = async (req, res) => {
       await User.findByIdAndUpdate(
         req.params.id, { username, password: hashedPassword }
       );
-      res.status(204);
+      res.status(204).send();
     } else if (googleId) {
       await User.findByIdAndUpdate(req.param.id, req.body);
-      res.status(204);
+      res.status(204).send();
     } else {
       res.status(400).send('Need either username/password or googleId to create user.');
     }
@@ -84,14 +96,13 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
-  // #swagger.tags=['Users']
   // #swagger.summary=Delete a user
   // #swagger.description=Delete a users email and hashed password
   try {
     const result = await User.findByIdAndDelete(req.params.id);
     console.log(result);
-    if (result.acknowledged) {
-      res.status(200).send(`${result.deletedCount} document(s) were deleted`);
+    if (result) {
+      res.status(200).send(`${result.id} was deleted`);
     } else {
       res.status(500).json('Error occurred while deleting the user.');
     }
@@ -101,7 +112,6 @@ const deleteUser = async (req, res) => {
 };
 
 const checkUserExists = async (req, res) => {
-  // #swagger.tags=['Users']
   // #swagger.summary=Verify that username exists in db
   // #swagger.description=Returns true if username exists.
   try {

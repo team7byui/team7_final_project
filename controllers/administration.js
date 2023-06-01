@@ -5,11 +5,10 @@ const queryFromRequest = require('../util/queryFromRequest.js');
 
 const findAllAdmin = async (request, response) => {
   /*
-    #swagger.tags=['Administration']
     #swagger.summary=Show all admins info
     #swagger.description=Finds all admin members info
     #swagger.responses[200] = {
-      schema: { $ref: '#/definitions/AdministratorArray' }
+      schema: { $ref: '#/definitions/AdministrationArray' }
     }
   */
   try {
@@ -28,11 +27,10 @@ const findAllAdmin = async (request, response) => {
 
 const getSingle = async (request, response) => {
   /*
-    #swagger.tags=['Administration']
     #swagger.summary=Show an admins info based off id
     #swagger.description=Finds an admin members info based off id
     #swagger.responses[200] = {
-      schema: { $ref: '#/definitions/Administrator' }
+      schema: { $ref: '#/definitions/Administration' }
     }
   */
   try {
@@ -61,11 +59,14 @@ const getSingle = async (request, response) => {
 
 const createAdministration = async (request, response) => {
   /*
-    #swagger.tags=['Administration']
     #swagger.summary=Add a new admin position to database
     #swagger.description=Enter new admin positions information to add to database
+    #swagger.parameters['body'] = {
+      in: 'body',
+      schema: { $ref: '#/definitions/Administration' }
+    }
     #swagger.responses[201] = {
-      schema: { $ref: '#/definitions/InsertedId' }
+      schema: { $ref: '#/definitions/InsertedResponse' }
     }
   */
   try {
@@ -93,9 +94,14 @@ const createAdministration = async (request, response) => {
 };
 
 const updateAdministration = async (req, res) => {
-  // #swagger.tags=['Administration']
-  // #swagger.summary=Update an admins info based off id
-  // #swagger.description=Changes an admin members info based off their id
+  /*
+    #swagger.summary=Update an admins info based off id
+    #swagger.description=Changes an admin members info based off their id
+    #swagger.parameters['body'] = {
+      in: 'body',
+      schema: { $ref: '#/definitions/Administration' }
+    }
+  */
   try {
     if (ObjectId.isValid(req.params.id)) {
       const administrationId = new ObjectId(req.params.id);
@@ -129,7 +135,6 @@ const updateAdministration = async (req, res) => {
 
 // Delete Working
 const deleteAdministration = async (req, res) => {
-  // #swagger.tags=['Administration']
   // #swagger.summary=Delete an admins info based off id
   // #swagger.description=Deletes an admin members info based off their id
   try {

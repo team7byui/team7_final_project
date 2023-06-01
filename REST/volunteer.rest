@@ -24,6 +24,8 @@ Content-Type: application/json
   "name": "{{name}}"
 }
 
+#** Advanced queries **#
+
 ### Execute body as query
 GET {{host}}/volunteers
 Content-Type: application/json

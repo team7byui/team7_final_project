@@ -16,12 +16,11 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
     "swagger": "node ./swagger.js"
   },
-  "author": "",
+  "author": "Shauntal Byrne <shauniebyrne@github.com>",
   "contributors": [
     "John Sudds <jsuddsjr@github.com>",
     "Kelsey Berta <kelseyberta@github.com>",
     "Sam Gordon <samgo23@github.com>",
-    "Shauntal Byrne <shauniebyrne@github.com>",
     "Tianna Despain <tiannadespain@github.com>"
   ],
   "license": "ISC",
@@ -33,6 +32,8 @@
     "express-session": "^1.17.3",
     "express-validator": "^7.0.1",
     "http-errors": "^2.0.0",
+    "is-email-validation": "^0.0.5",
+    "is-url": "^1.2.4",
     "mongodb": "^5.5.0",
     "mongoose": "^7.1.2",
     "passport": "^0.6.0",

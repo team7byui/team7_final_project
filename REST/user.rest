@@ -4,33 +4,25 @@
 @weakPassword = awesomeSauce
 @strongerPassword = awesomeSauce123!
 
-### Attempt to steal users DB - SHOULD FAIL with 404 error.
+### Attempt to steal users DB
+#! SHOULD FAIL with 404 error
 GET {{host}}/users
 
 ### This should return "false" since the username is available.
 GET {{host}}/users/exists/newSignup
 
 ### Get a single object
-#! 401 Unauthorized
 # @name oneUser
 GET {{host}}/users/{{userId}}
 
 @username = {{oneUser.response.body.username}}
 
-### Log in
-GET {{host}}/auth/login
-Content-Type: application/json
-
-{
-    "username": "ptaPres",
-    "password": "{{strongerPassword}}"
-}
-
 ### This should return "true"
 GET {{host}}/users/exists/{{username}}
 
-### Add user -- SHOULD FAIL with password complexity error and duplicate user.
-POST {{host}}/users/
+### Add user
+#! SHOULD FAIL with password complexity error
+PUT {{host}}/users/{{userId}}
 Content-Type: application/json
 
 {
@@ -38,7 +30,8 @@ Content-Type: application/json
     "password": "{{weakPassword}}"
 }
 
-### Add user -- SHOULD FAIL with duplicate user.
+### Add user
+#! SHOULD FAIL with duplicate user.
 POST {{host}}/users/
 Content-Type: application/json
 
@@ -68,7 +61,7 @@ Content-Type: application/json
 }
 
 #### Variables
-@newUserId = {{newUser.response.body._id}}
+@newUserId = {{newUser.response.body.insertedId}}
 
 ### Verify
 # TODO: Returns 400 if user not found, but probably should be 404.

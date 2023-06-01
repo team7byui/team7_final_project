@@ -18,8 +18,23 @@ GET {{host}}/members/{{memberId}}
 @birthday = {{oneMember.response.body.birthday}}
 @allFamilyMembers = {{oneMember.response.body.allFamilyMembers}}
 
+
+### Create a new member with same field
+#! SHOULD FAIL with email in use.
+POST {{host}}/members
+Content-Type: application/json
+
+{
+  "firstName": "{{firstName}}",
+  "lastName": "{{lastName}}",
+  "address": "{{address}}",
+  "phoneNumber": "{{phoneNumber}}",
+  "email": "{{email}}",
+  "birthday": "{{birthday}}",
+  "allFamilyMembers": "{{allFamilyMembers}}"
+}
+
 ### Update existing record.
-#! 401 Unauthorized
 #* NOTE: You can use existing email address because it's the same record.
 PUT {{host}}/members/{{memberId}}
 Content-Type: application/json
@@ -34,23 +49,7 @@ Content-Type: application/json
   "allFamilyMembers": "{{allFamilyMembers}}"
 }
 
-### Create a new member with same field, SHOULD FAIL with email in use.
-#! 401 Unauthorized
-POST {{host}}/members
-Content-Type: application/json
-
-{
-  "firstName": "{{firstName}}",
-  "lastName": "{{lastName}}",
-  "address": "{{address}}",
-  "phoneNumber": "{{phoneNumber}}",
-  "email": "{{email}}",
-  "birthday": "{{birthday}}",
-  "allFamilyMembers": "{{allFamilyMembers}}"
-}
-
-### Create a new member with new email.
-#! 401 Unauthorized
+### We can also create a new member with new email.
 # @name newMember
 POST {{host}}/members
 Content-Type: application/json
@@ -65,18 +64,17 @@ Content-Type: application/json
   "allFamilyMembers": "{{allFamilyMembers}}"
 }
 
-####
+#### Variables
 @newMemberId = {{newMember.response.body.insertedId}}
 
 ### Verify
 GET {{host}}/members/{{newMemberId}}
 
 ### Clean up
-#! 401 Unauthorized
 DELETE {{host}}/members/{{newMemberId}}
 
 ### TESTING VALIDATION
-#! 401 Unauthorized
+#! Validation, should result in errors.
 PUT {{host}}/members/bad-id
 Content-Type: application/json
 

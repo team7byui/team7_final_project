@@ -1,13 +1,18 @@
-const { body, validationResult, param, oneOf } = require('express-validator');
 const { Model } = require('mongoose');
 const ObjectId = require('mongoose').Types.ObjectId;
+const {
+  body,
+  oneOf,
+  param,
+  validationResult,
+} = require('express-validator');
+const { runAllChains } = require('express-validator/src/utils');
 
 const isValidObjectId = (id) =>
   ObjectId.isValid(id) && String(new ObjectId(id)) === id;
 
 const emailChain = () =>
   body('email')
-    .trim()
     .normalizeEmail()
     .isEmail()
     .withMessage('The email format is unrecognized.');
@@ -29,6 +34,12 @@ const dateChain = (field) =>
       return true;
     });
 
+const isoDateChain = (field) =>
+  body(field)
+    .notEmpty()
+    .isISO8601()
+    .withMessage('Not a valid ISO8601 date format.');
+
 // const timeChain = (field) =>
 //   body(field)
 //     .trim()
@@ -43,101 +54,89 @@ const requiredBodyChain = (field) =>
     .notEmpty()
     .withMessage((value, meta) => `${meta.path} is required.`);
 
+/**
+ * Prevent submitting duplicate email.
+ * @param {import('mongoose').Model} model The model to query
+ * @param {string} [email] Name of email field in body, optional
+ * @param {string} [id] Name of the id parameter, optional
+ * @returns {import('express-validator').ValidationChain} Validation chain
+ */
+const ensureUniqueEmail = (model, email = 'email', id = 'id') =>
+  body(email).optional().isEmail().bail().custom(async (value, meta) => {
+    const myId = isValidObjectId(meta.req.params[id])
+      ? meta.req.params[id]
+      : undefined;
+    const query = {
+      '_id': { $ne: myId },
+      [email]: value
+    };
+    const result = await model.findOne(query);
+    if (result) {
+      throw new Error('E100: Specified email already in use.');
+    }
+  });
+
+/**
+ * Prevent submitting either duplicate username or googleId.
+ * @param {Model} model The model to query
+ * @param {string} username Name of username field, optional
+ * @param {string} id Name of id parameter, optional
+ * @returns {import('express-validator').ValidationChain} Validation chain
+ */
+const ensureUniqueUser = (model, username = 'username', id = 'id') =>
+  body(username).notEmpty().bail().custom(async (value, meta) => {
+    const myId = isValidObjectId(meta.req.params[id])
+      ? meta.req.params[id]
+      : undefined;
+    const query = {
+      '_id': { $ne: myId },
+      [username]: value
+    };
+    const result = await model.findOne(query);
+    if (result) {
+      throw new Error('E100: Specified username already in use.');
+    }
+  });
+
 module.exports = {
   /**
    * Ensures route parameter is a valid 'ObjectId'
-   * @param {string} field The object property to validate
-   * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
+   * @param {string} [id] The object property to validate
+   * @returns {import('express-validator').ValidationChain} Validation chain
    */
-  idParamRequired: (field) => param(field).exists().custom(isValidObjectId),
+  idParamRequired: (id='id') => param(id).exists().custom(isValidObjectId),
 
-  /**
-   * Prevent submitting duplicate email.
-   * @param {import('mongoose').Model} model The model to query
-   * @param {string} [email] Name of email field in body, optional
-   * @param {string} [id] Name of the id parameter, optional
-   * @returns {import('express-validator').ValidationChain} A validation rule
-   */
-  ensureUniqueEmail: (model, email='email', id='id') =>
-    body(email).custom(async (value, meta) => {
-      const myId = isValidObjectId(meta.req.params[id])
-        ? meta.req.params[id]
-        : undefined;
-      const query = {
-        '_id': {$ne: myId},
-        [email]: value
-      };
-      const result = await model.findOne(query);
-      if (result) {
-        throw new Error('E100: Specified email already in use.');
-      }
-    }),
-
-  /**
-   * Prevent submitting either duplicate username or googleId.
-   * @param {Model} model The model to query
-   * @param {string} username Name of username field, optional
-   * @param {string} googleId Name of googleId field, optional
-   * @param {string} id Name of id parameter, optional
-   * @returns {import('express-validator').ValidationChain} A validation rule
-   */
-  ensureUniqueUser: (model, username='username', googleId='googleId', id='id') =>
-    oneOf([
-      body(username).notEmpty().custom(async (value, meta) => {
-        const myId = isValidObjectId(meta.req.params[id])
-          ? meta.req.params[id]
-          : undefined;
-        const query = {
-          '_id': {$ne: myId},
-          [username]: value
-        };
-        const result = await model.findOne(query);
-        if (result) {
-          throw new Error('E100: Specified username already in use.');
-        }
-      })
-    ],
-    [
-      body(googleId).notEmpty(),
-      body(googleId).custom(async (value, meta) => {
-        const myId = isValidObjectId(meta.req.params[id])
-          ? meta.req.params[id]
-          : undefined;
-        const query = {
-          '_id': {$ne: myId},
-          [googleId]: value
-        };
-        const result = await model.findOne(query);
-        if (result) {
-          throw new Error('E100: Specified Google ID already in use.');
-        }
-      })
-    ]),
+  ensureUniqueEmail,
+  ensureUniqueUser,
 
   /**
    * Applies rules for username and password.
-   * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
+   * @returns {import('express-validator/src/chain').ContextRunner} Validation chain
    */
-  userValidationRules: () => [
-    // username must be an email
-    requiredBodyChain('username'),
-    // validate against complexity rules
-    body('password')
-      .isLength({min: 8, max:26})
-      .withMessage('Password must be at least 8 characters, and no more than 26 characters long.')
-      .isStrongPassword()
-      .withMessage(
-        'Password must contain at 1 lowercase, 1 uppercase, 1 number, and 1 symbol character.'
-      ),
-  ],
+  userValidationRules: () => oneOf([
+    [
+      body('password')
+        .isLength({min: 8, max:26})
+        .withMessage('Password must be at least 8 characters, and no more than 26 characters long.')
+        .isStrongPassword()
+        .withMessage(
+          'Password must contain at 1 lowercase, 1 uppercase, 1 number, and 1 symbol character.'
+        )
+    ],
+    [
+      body('password').isEmpty(),
+      body('email').notEmpty()
+    ],
+  ], {
+    errorType: 'least_errored'
+  }),
 
   /**
    * Applies rules for firstName, lastName, phoneNumber, and email.
-   * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
+   * @returns {import('express-validator').ValidationChain} Validation chain
    */
   personValidationRules: () => [
-    requiredBodyChain('firstName'),
-    requiredBodyChain('lastName'),
+    requiredBodyChain(['firstName', 'lastName']),
     phoneChain(),
     emailChain(),
     dateChain('birthday').optional()
@@ -145,19 +144,17 @@ module.exports = {
 
   /**
    * Applies rules for title, date, time, and location.
-   * @returns {Array<import('express-validator').ValidationChain>} A list of validation rules
+   * @returns {import('express-validator').ValidationChain} Validation chain
    */
-  eventValidationRules: () => [
-    requiredBodyChain('title'),
-    requiredBodyChain('location'),
-    oneOf([
+  eventValidationRules: () =>
+    requiredBodyChain(['title','location','details']).if(oneOf([
       [
-        body('startDate').notEmpty().isISO8601(),
-        body('endDate').notEmpty().isISO8601()
+        isoDateChain('startDate'),
+        isoDateChain('endDate')
       ],
       [
-        body('startDate').notEmpty().isISO8601(),
-        body('duration').notEmpty().matches(/^PT\d+H(\d{2}M)?/).withMessage((value, meta) =>
+        isoDateChain('startDate'),
+        body('duration').matches(/^PT\d+H(\d{2}M)?/).withMessage((value, meta) =>
           `${meta.path}: '${value}' doesn't match format PTnH or PTnHnM`
         )
       ],
@@ -165,8 +162,10 @@ module.exports = {
         dateChain('date'),
         body('time').notEmpty()
       ]
-    ]),
-  ],
+    ], {
+      message: 'Could not determine when the event would start and end.',
+      errorType: 'least_errored'
+    })),
 
   /**
    * @typedef {import('express').Request} Request
@@ -180,9 +179,29 @@ module.exports = {
 
   /**
    * Returns route handler for validation errors.
+   * @param {import('express-validator').ValidationChain} chains One or more validation chains
    * @returns {RouteHandler} Intercept validation errors
    */
-  reportValidationErrors: () => (req, res, next) => {
+  reportValidationErrors: (...chains) => async (req, res, next) => {
+
+    if (chains) {
+      // TODO: Report this issue to the developer.
+      // The "oneOf" middleware doesn't have a builder, so runAllChains barfs.
+      const fakeBuilder = { build: () => ({}) };
+      const safeChains = chains.map(ch => {
+        if (Array.isArray(ch)) {
+          ch = oneOf([ch]);
+        }
+        if (!ch.builder) {
+          ch.builder = fakeBuilder;
+        }
+        return ch;
+      });
+      // END HACK
+
+      await runAllChains(req, safeChains);
+    }
+
     const errors = validationResult(req);
     if (errors.isEmpty()) {
       return next();

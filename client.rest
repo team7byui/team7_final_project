@@ -1,15 +1,34 @@
-// Each route has its own file in the REST folder.
+#! PLEASE READ !#
 
-// REST
-//-- admin.rest
-//-- event.rest
-//-- member.rest
-//-- user.rest
-//-- volunteer.rest
+#* Each route has its own file in the REST folder.
 
-// With the .REST file in the active window, use the VS Code status bar to select your REST Client Environment.
-// The Environment will select the {{host}} variable as defined in the workspace settings file.
+REST
+- admin.rest
+- event.rest
+- member.rest
+- user.rest
+- volunteer.rest
 
-// .vscode
-//-- settings.json
+#* With the REST file in the active window, click the status bar in VS Code to switch REST Client Environment.
+#* The active environment's name is displayed at the right bottom of Visual Studio Code. When you click it, you 
+#* can switch environment in the pop-up list. You can also switch environment using Ctrl+Alt+E(Cmd+Alt+E for macOS), 
+#* or press F1 and then select/type Rest Client: Switch Environment
 
+- No Environment (defaults set all environments)
+- Development (requires an active localhost server)
+- Production (the hosted application on Render.com)
+
+#* The REST environment will set the {{host}} variable as defined in the workspace settings file, here:
+
+.vscode
+- settings.json
+
+#! 401 Unauthorized
+#* All the PUT, POST, and DELETE routes require you to be authenticated.
+#* If you get access denied, use the /auth/google route to add your
+#* credientials to the database.
+
+https://team7project.onrender.com/auth/google
+
+### Request the home page. (Be patient, the remote server might be asleep.)
+GET {{host}}

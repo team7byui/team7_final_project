@@ -10,8 +10,7 @@ const {
 routes.get('/', administrationController.findAllAdmin);
 
 routes.get('/:id',
-  idParamRequired('id'),
-  reportValidationErrors(),
+  reportValidationErrors(idParamRequired('id')),
   administrationController.getSingle
 );
 
@@ -25,17 +24,15 @@ routes.post('/',
 routes.put(
   '/:id',
   isAuthenticated,
-  idParamRequired('id'),
   personValidationRules(),
-  reportValidationErrors(),
+  reportValidationErrors(idParamRequired('id')),
   administrationController.updateAdministration
 );
 
 routes.delete(
   '/:id',
   isAuthenticated,
-  idParamRequired('id'),
-  reportValidationErrors(),
+  reportValidationErrors(idParamRequired('id')),
   administrationController.deleteAdministration
 );
 

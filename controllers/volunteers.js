@@ -4,10 +4,14 @@ const Volunteer = require('../models/volunteer.js');
 const queryFromRequest = require('../util/queryFromRequest');
 
 const getAll = async (request, response) => {
-  // #swagger.tags=['Volunteers']
-  // #swagger.summary=Show all volunteer info
-  // #swagger.description=See all volunteer info
-  // #swagger.
+  /*
+    #swagger.tags=['Volunteers']
+    #swagger.summary=Show all volunteer info
+    #swagger.description=See all volunteer info
+    #swagger.responses[200] = {
+      schema: { $ref: '#/definitions/VolunteerArray' }
+    }
+  */
   try {
     const result = await queryFromRequest(Volunteer, request);
     if (result.length > 0) {
@@ -22,9 +26,14 @@ const getAll = async (request, response) => {
 };
 
 const getSingle = async (request, response) => {
-  // #swagger.tags=['Volunteers']
-  // #swagger.summary=Shows volunteer info based off id
-  // #swagger.description=See volunteer info for each event based off id
+  /*
+    #swagger.tags=['Volunteers']
+    #swagger.summary=Shows volunteer info based off id
+    #swagger.description=See volunteer info for each event based off id
+    #swagger.responses[200] = {
+      schema: { $ref: '#/definitions/Volunteer' }
+    }
+  */
   try {
     if (ObjectId.isValid(request.params.id)) {
       const userId = new ObjectId(request.params.id);
@@ -50,9 +59,14 @@ const getSingle = async (request, response) => {
 };
 
 const createVolunteer = async (request, response) => {
-  // #swagger.tags=['Volunteers']
-  // #swagger.summary=Create new volunteer info
-  // #swagger.description=Create new volunteer info
+  /*
+    #swagger.tags=['Volunteers']
+    #swagger.summary=Create new volunteer info
+    #swagger.description=Create new volunteer info
+    #swagger.responses[200] = {
+      schema: { $ref: '#/definitions/InsertedResponse' }
+    }
+  */
   try {
     const volunteers = {
       event: request.body.event,
@@ -105,7 +119,6 @@ const updateVolunteer = async (req, res) => {
   }
 };
 
-
 // Delete Working
 const deleteVolunteer = async (req, res) => {
   // #swagger.tags=['Volunteers']
@@ -114,7 +127,7 @@ const deleteVolunteer = async (req, res) => {
   try {
     if (ObjectId.isValid(req.params.id)) {
       const volunteer = new ObjectId(req.params.id);
-      //Connect to books database in mongodb
+      //Connect to volunteers database in mongodb
       const response = await mongodb
         .getDb()
         .db('ClubOrganization')
@@ -125,10 +138,10 @@ const deleteVolunteer = async (req, res) => {
       if(response.acknowledged) {
         res.status(200).send(response.deletedCount + 'documents(s) were deleted.');
       } else {
-        res.status(500).json(response.error || 'Sorry. Book information was not deleted.');
+        res.status(500).json(response.error || 'Sorry. Volunteer information was not deleted.');
       }
     } else {
-      res.status(400).json('Must provide a valid id to delete book.');
+      res.status(400).json('Must provide a valid id to delete volunteer.');
     }
   } catch (err) {
     res.status(500).json(err);

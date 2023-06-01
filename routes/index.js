@@ -1,15 +1,15 @@
 const router = require('express').Router();
 
-router.get('/', (request, response) => {
-  response.redirect('/api-docs');
-});
+router.get('/', /* #swagger.ignore = true */(req, res) => res.redirect('/api-docs'));
 
-router.use('/administration', require('./administration'));
-router.use('/users', require('./users'));
-router.use('/members', require('./members'));
-router.use('/events', require('./events'));
-router.use('/volunteers', require('./volunteers'));
-router.use('/auth', require('./auth'));
-router.use('/', require('./swagger'));
+router.use('/api-docs', /* #swagger.ignore=true */ require('./swagger'));
+router.use('/auth',     /* #swagger.ignore=true */ require('./auth'));
+
+router.use('/administration', /* #swagger.tags = ['Administration'] */ require('./administration'));
+router.use('/users',          /* #swagger.tags = ['Users'] */          require('./users'));
+router.use('/members',        /* #swagger.tags = ['Members'] */        require('./members'));
+router.use('/events',         /* #swagger.tags = ['Events'] */         require('./events'));
+router.use('/volunteers',     /* #swagger.tags = ['Volunteers'] */     require('./volunteers'));
+
 
 module.exports = router;

@@ -5,7 +5,6 @@ const queryFromRequest = require('../util/queryFromRequest');
 
 const getAll = async (request, response) => {
   /*
-    #swagger.tags=['Members']
     #swagger.summary=Show all members info
     #swagger.description=Shows all members info
     #swagger.responses[200] = {
@@ -28,7 +27,6 @@ const getAll = async (request, response) => {
 
 const getSingle = async (request, response) => {
   /*
-    #swagger.tags=['Members']
     #swagger.summary=Get member info based off id
     #swagger.description=Show a members info based off id
     #swagger.responses[200] = {
@@ -60,11 +58,14 @@ const getSingle = async (request, response) => {
 };
 const createMembers = async (request, response) => {
   /*
-    #swagger.tags=['Members']
     #swagger.summary=Create a new member
     #swagger.description=Fill in new members info to create a new member
+    #swagger.parameters['body'] = {
+      in: 'body',
+      schema: { $ref: '#/definitions/Member' }
+    }
     #swagger.responses[201] = {
-      schema: { $ref: '#/definitions/InsertedId' }
+      schema: { $ref: '#/definitions/InsertedResponse' }
     }
   */
   try {
@@ -94,9 +95,14 @@ const createMembers = async (request, response) => {
 };
 
 const updateMember = async (req, res) => {
-  // #swagger.tags=['Members']
-  // #swagger.summary=Update member info based off id
-  // #swagger.description=Update member info based off id
+  /*
+    #swagger.summary=Update member info based off id
+    #swagger.description=Update member info based off id
+    #swagger.parameters['body'] = {
+      in: 'body',
+      schema: { $ref: '#/definitions/Event' }
+    }
+  */
   try {
     if (ObjectId.isValid(req.params.id)) {
       const memberID = new ObjectId(req.params.id);
@@ -130,7 +136,6 @@ const updateMember = async (req, res) => {
 };
 
 const deleteMember = async (req, res) => {
-  // #swagger.tags=['Members']
   // #swagger.summary=Delete member info based off id
   // #swagger.description=Delete member info based off id
   try {

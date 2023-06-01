@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
+    "version": "0.1",
     "title": "club organization",
-    "description": "club organization",
-    "version": "1.0.0"
+    "description": "\nThis api describes entities that might be useful to a club organization, like Members, Events, and Volunteers. We've also included Adminstration contacts (President, Secretary, etc) and a User table to manage authentication. The data is stored in a MongoDB database.\n\n### 401 Unauthorized\nTo use routes that modify data, you need to be authenticated. [Click here to log in with your Google account](/auth/google).\n\n### Credits\nThis API was written by Team 7 (Shauntal, Tianna, Kelsey, Sam, John) as a final project for CSE 341. [Source code is available on GitHub](https://github.com/team7byui/team7_final_project).\n\n**This api not intended for regular use.**\n    "
   },
   "host": "team7project.onrender.com",
   "basePath": "/",
@@ -11,13 +11,6 @@
     "https"
   ],
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
-    },
     "/administration/": {
       "get": {
         "tags": [
@@ -33,7 +26,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/AdministratorArray"
+              "$ref": "#/definitions/AdministrationArray"
             }
           },
           "400": {
@@ -55,27 +48,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "address": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "phoneNumber": {
-                  "example": "any"
-                },
-                "position": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Administration"
             }
           }
         ],
@@ -83,7 +56,7 @@
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/InsertedId"
+              "$ref": "#/definitions/InsertedResponse"
             }
           },
           "401": {
@@ -120,7 +93,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$ref": "#/definitions/Administrator"
+              "$ref": "#/definitions/Administration"
             }
           },
           "400": {
@@ -151,27 +124,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "address": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "phoneNumber": {
-                  "example": "any"
-                },
-                "position": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Administration"
             }
           }
         ],
@@ -248,6 +201,12 @@
           "200": {
             "description": "OK"
           },
+          "201": {
+            "schema": {
+              "$ref": "#/definitions/User"
+            },
+            "description": "Created"
+          },
           "400": {
             "description": "Bad Request"
           },
@@ -279,18 +238,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                },
-                "googleId": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Member"
             }
           }
         ],
@@ -354,18 +302,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "username": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                },
-                "googleId": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Member"
             }
           }
         ],
@@ -456,30 +393,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "address": {
-                  "example": "any"
-                },
-                "phoneNumber": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "birthday": {
-                  "example": "any"
-                },
-                "allFamilyMembers": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Member"
             }
           }
         ],
@@ -487,7 +401,7 @@
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/InsertedId"
+              "$ref": "#/definitions/InsertedResponse"
             }
           },
           "401": {
@@ -555,30 +469,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "address": {
-                  "example": "any"
-                },
-                "phoneNumber": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "birthday": {
-                  "example": "any"
-                },
-                "allFamilyMembers": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Event"
             }
           }
         ],
@@ -670,37 +561,14 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "example": "any"
-                },
-                "startDate": {
-                  "example": "any"
-                },
-                "endDate": {
-                  "example": "any"
-                },
-                "duration": {
-                  "example": "any"
-                },
-                "location": {
-                  "example": "any"
-                },
-                "details": {
-                  "example": "any"
-                },
-                "volunteersNeeded": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Event"
             }
           }
         ],
         "responses": {
           "200": {
             "schema": {
-              "$ref": "#/definitions/InsertedId"
+              "$ref": "#/definitions/InsertedResponse"
             },
             "description": "OK"
           },
@@ -772,30 +640,7 @@
             "name": "body",
             "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "example": "any"
-                },
-                "startDate": {
-                  "example": "any"
-                },
-                "endDate": {
-                  "example": "any"
-                },
-                "duration": {
-                  "example": "any"
-                },
-                "location": {
-                  "example": "any"
-                },
-                "details": {
-                  "example": "any"
-                },
-                "volunteersNeeded": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Event"
             }
           }
         ],
@@ -863,7 +708,10 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/VolunteerArray"
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -900,6 +748,12 @@
           }
         ],
         "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/InsertedResponse"
+            },
+            "description": "OK"
+          },
           "201": {
             "description": "Created"
           },
@@ -929,7 +783,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Volunteer"
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -1009,162 +866,62 @@
           }
         }
       }
-    },
-    "/auth/": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      }
-    },
-    "/auth/google": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Start Google authorization flow.",
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
-    },
-    "/auth/google/callback": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Finish Google authorization flow.",
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
-    },
-    "/auth/login": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Start local authorization flow.",
-        "description": "",
-        "consumes": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "username",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          {
-            "name": "password",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/auth/logout": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "summary": "Log out.",
-        "description": "Remove user session variables.",
-        "parameters": [],
-        "responses": {
-          "302": {
-            "description": "Successful logout."
-          }
-        }
-      }
-    },
-    "/api-docs": {
-      "get": {
-        "description": "",
-        "parameters": [],
-        "responses": {}
-      }
     }
   },
   "definitions": {
-    "Administration": {
+    "InsertedResponse": {
       "type": "object",
       "properties": {
-        "title": {
-          "type": "string",
-          "example": "Administration"
+        "acknowledged": {
+          "type": "boolean",
+          "description": "Server acknowledged the update"
         },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "firstName": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "lastName": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "address": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "phoneNumber": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "email": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "position": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            }
-          }
+        "insertedId": {
+          "type": "string",
+          "description": "Id of the newly inserted record"
+        }
+      }
+    },
+    "Administration": {
+      "title": "Administration",
+      "required": [
+        "firstName",
+        "lastName",
+        "address",
+        "phoneNumber",
+        "email",
+        "position"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "First name",
+          "example": "Jane"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name",
+          "example": "Seymour"
+        },
+        "address": {
+          "type": "string",
+          "description": "Home address",
+          "example": "847 Pimpernel Street, Marquette, MI 49855"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "10-digit phone number",
+          "example": "1234567890"
+        },
+        "email": {
+          "type": "string",
+          "description": "An email address",
+          "example": "jane@somewhere.com"
+        },
+        "position": {
+          "type": "string",
+          "description": "Admin's role in the organization",
+          "example": "Diva"
         }
       }
     },
@@ -1175,70 +932,48 @@
       }
     },
     "Event": {
-      "type": "object",
+      "title": "Event",
+      "required": [
+        "title",
+        "startDate",
+        "location",
+        "details"
+      ],
       "properties": {
         "title": {
           "type": "string",
-          "example": "Event"
+          "description": "Event title",
+          "example": "Trunk or Treat"
         },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "title": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "date": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "time": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "location": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "details": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "volunteersNeeded": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            }
-          }
+        "startDate": {
+          "type": "string",
+          "description": "The start date and time in ISO 8601 format",
+          "example": "2023-05-17T17:00:00.000Z"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "The end date and time in ISO 8601 format",
+          "example": "2023-05-17T18:30:00.000Z"
+        },
+        "duration": {
+          "type": "string",
+          "description": "The duration of the event in ISO 8601 format",
+          "example": "PT1H30M"
+        },
+        "location": {
+          "type": "string",
+          "description": "The physical location of the event",
+          "example": "1325 E Malibu Drive, Tempe, AZ 85282"
+        },
+        "details": {
+          "type": "string",
+          "description": "A description of the event",
+          "example": "Come dressed up. Make sure to pick treat and not trick."
+        },
+        "volunteersNeeded": {
+          "type": "string",
+          "description": "A comma separated list of volunteer activities.",
+          "example": "Donate candy, decorate trunks, bouncy house supervisor"
         }
       }
     },
@@ -1249,79 +984,51 @@
       }
     },
     "Member": {
-      "type": "object",
+      "title": "Member",
+      "required": [
+        "firstName",
+        "lastName",
+        "address",
+        "phoneNumber",
+        "email",
+        "birthday",
+        "allFamilyMembers"
+      ],
       "properties": {
-        "title": {
+        "firstName": {
           "type": "string",
-          "example": "Member"
+          "description": "A given name",
+          "example": "Samantha"
         },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "firstName": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "lastName": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "address": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "phoneNumber": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "email": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "birthday": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "allFamilyMembers": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            }
-          }
+        "lastName": {
+          "type": "string",
+          "description": "A family name",
+          "example": "Smith"
+        },
+        "address": {
+          "type": "string",
+          "description": "A physical address",
+          "example": "4865 S Frontier Street, Tempe, AZ 85281"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "10-digit phone number",
+          "example": "1234567890"
+        },
+        "email": {
+          "type": "string",
+          "description": "An email address",
+          "example": "sammy@example.com"
+        },
+        "birthday": {
+          "type": "string",
+          "description": "A birthday a standard date format",
+          "example": "February 28, 1984"
+        },
+        "allFamilyMembers": {
+          "type": "string",
+          "description": "A comma separated list of first names",
+          "example": "Derick, Samantha, Eric, Savannah"
         }
       }
     },
@@ -1332,88 +1039,39 @@
       }
     },
     "User": {
-      "type": "object",
+      "title": "User",
       "properties": {
-        "title": {
+        "username": {
           "type": "string",
-          "example": "User"
+          "description": "The user name"
         },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "username": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "password": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "googleId": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "email": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "displayName": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "firstName": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "lastName": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "image": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            }
-          }
+        "password": {
+          "type": "string",
+          "description": "Password hash (not included in default view)"
+        },
+        "googleId": {
+          "type": "string",
+          "description": "Google identifier (not included in default view)"
+        },
+        "email": {
+          "type": "string",
+          "description": "An email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user name for display purposes."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "A given name"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "A family name"
+        },
+        "image": {
+          "type": "string",
+          "description": "URL to photo resource"
         }
       }
     },
@@ -1424,43 +1082,27 @@
       }
     },
     "Volunteer": {
-      "type": "object",
+      "title": "Volunteer",
+      "required": [
+        "event",
+        "opportunity",
+        "name"
+      ],
       "properties": {
-        "title": {
+        "event": {
           "type": "string",
-          "example": "Volunteer"
+          "description": "Title of related event",
+          "example": "Trunk or Treat"
         },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "event": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "opportunity": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            },
-            "name": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "string"
-                }
-              }
-            }
-          }
+        "opportunity": {
+          "type": "string",
+          "description": "A volunteer task",
+          "example": "Hand out snacks"
+        },
+        "name": {
+          "type": "string",
+          "description": "The full name of the volunteer",
+          "example": "Samantha Smith"
         }
       }
     },
@@ -1468,15 +1110,6 @@
       "type": "array",
       "items": {
         "$ref": "#/definitions/Volunteer"
-      }
-    },
-    "InsertedId": {
-      "type": "object",
-      "properties": {
-        "insertedId": {
-          "type": "string",
-          "example": "objectId"
-        }
       }
     }
   }

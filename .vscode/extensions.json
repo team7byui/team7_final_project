@@ -1,13 +1,14 @@
 {
     "recommendations": [
-        "streetsidesoftware.code-spell-checker",
+        "aaron-bond.better-comments",
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "mongodb.mongodb-vscode",
         "github.vscode-pull-request-github",
         "humao.rest-client",
-        "spmeesseman.vscode-taskexplorer",
+        "mongodb.mongodb-vscode",
         "shardulm94.trailing-spaces",
+        "spmeesseman.vscode-taskexplorer",
+        "streetsidesoftware.code-spell-checker",
         "yzhang.markdown-all-in-one"
     ]
 }

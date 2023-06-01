@@ -21,7 +21,6 @@ GET {{host}}/events/{{eventId}}
 @volunteersNeeded = {{oneEvent.response.body.volunteersNeeded}}
 
 ###
-#! 401 Unauthorized
 PUT {{host}}/events/{{eventId}}
 Content-Type: application/json
 
@@ -35,7 +34,6 @@ Content-Type: application/json
 }
 
 ### New event
-#! 401 Unauthorized
 #* NOTE: startDate, endDate, and duration are calculated from friendly strings.
 # @name newEvent
 POST {{host}}/events
@@ -57,11 +55,9 @@ Content-Type: application/json
 GET {{host}}/events/{{newEventId}}
 
 ### Clean it up
-#! 401 Unauthorized
 DELETE {{host}}/events/{{newEventId}}
 
 ### Create a new event by specifying an ISO date and duration
-#! 401 Unauthorized
 # @name newEventIso
 POST {{host}}/events
 Content-Type: application/json
@@ -75,25 +71,23 @@ Content-Type: application/json
   "volunteersNeeded": "{{volunteersNeeded}}"
 }
 
-####
+#### Variables
 @newEventIsoId = {{newEventIso.response.body.insertedId}}
 
 ### Verify
 GET {{host}}/events/{{newEventIsoId}}
 
 ### Clean up
-#! 401 Unauthorized
 DELETE {{host}}/events/{{newEventIsoId}}
 
 ### Create new event with ISO start and end date
-#! 401 Unauthorized
 #* NOTE: Multi-day event, from Jan 23 to Jan 27.
 # @name newEventIso
 POST {{host}}/events
 Content-Type: application/json
 
 {
-  "title": "{{title}}",
+  "title": "Winter Fundraiser",
   "startDate": "2023-01-24T15:50:00.000Z",
   "endDate": "2023-01-28T07:00:00.000Z",
   "location": "{{location}}",
@@ -101,10 +95,27 @@ Content-Type: application/json
   "volunteersNeeded": "{{volunteersNeeded}}"
 }
 
-####
+#### Variables
 @newEventIso = {{newEventIso.response.body.insertedId}}
 
+
+### Testing validation
+#! Should fail with validation errors.
+PUT {{host}}/events/bad-id
+Content-Type: application/json
+
+{
+  "title": "",
+  "startDate": "2023-01-24T15:50:00.000Z",
+  "endDate": "not a date",
+  "location": "",
+  "details": "",
+  "volunteersNeeded": ""
+}
+
 ### ADVANCED: Get events with volunteers.
+#* This query returns all events for which volunteers are signed-up.
+#* The pipeline joins three tables, Events, Volunteers, and Members.
 GET {{host}}/events
 Content-Type: application/json
 

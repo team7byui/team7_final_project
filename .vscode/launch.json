@@ -12,6 +12,7 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}\\server.js",
+            "localRoot": "${workspaceFolder}",
             "env": {
                 "DEBUG": "express:*"
             }

@@ -1,6 +1,6 @@
 // NOTE: Before using this file, select your preferred REST Client environment on the status bar in VS Code.
 
-###
+### All objects
 # @name allAdmins
 GET {{host}}/administration
 
@@ -18,7 +18,6 @@ GET {{host}}/administration/{{adminId}}
 @position = {{oneAdmin.response.body.position}}
 
 ### Update record
-#! 401 Unauthorized
 PUT {{host}}/administration/{{adminId}}
 Content-Type: application/json
 
@@ -71,6 +70,7 @@ GET {{host}}/administration/{{newId}}
 DELETE {{host}}/administration/{{newId}}
 
 ### Bad request to test validation
+#! SHOULD FAIL with validation errors
 PUT {{host}}/administration/not-an-id
 Content-Type: application/json
 
@@ -81,7 +81,9 @@ Content-Type: application/json
     "email": "notAnEmail@badDomain"
 }
 
-### Advanced queries
+#** Advanced queries **#
+
+### 
 GET {{host}}/administration?fields=email
 Content-Type: application/json
 
@@ -90,7 +92,7 @@ Content-Type: application/json
     "lastName": "{{lastName}}"
 }
 
-### Advanced queries
+### 
 GET {{host}}/administration
 Content-Type: application/json
 
